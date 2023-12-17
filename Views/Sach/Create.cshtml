@@ -1,0 +1,129 @@
+﻿@model BookManagementWeb.Models.Entities.Sach;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="main-body" style="background-color:#f9f9f9; margin: 60px 50px 0 50px; border-radius:12px; height: 600px;
+       ">
+        @*        <h1>Thêm sách</h1>*@
+        <div class="row" style="height:inherit; width:100%;">
+            <div class="col-md-4" style="height:inherit; width:100%;">
+                <form asp-action="Create" asp-controller="Sach" enctype="multipart/form-data" method="post"
+                      style="display:flex; flex-direction:row; justify-content:space-between; align-items:center; height:inherit; width:100%;">
+
+                    <div style=" height: inherit; width: 50%; display:flex; flex-direction:column; align-items:center; justify-content: center;
+                       transform:translate(-30px,15px); ">
+                        <div class="form-group col-4 p-0" style=" transform: translateX(-80px);">
+                            <label class="control-label"></label>
+
+
+                            <img id="PreviewPhoto" src="~/images/noimage.png" alt="Logo Image"
+                                 style="width:330px; height:360px; border: 2px solid #333333; border-radius:5px;" />
+
+                            <span asp-validation-for="PhotoUrl" class="text-danger"></span>
+
+                        </div>
+
+                        <div class="col-1 p-0">
+                        </div>
+
+                        <div class="form-group col-7 p-0"  style="transform:translate(-10px,-60px);">
+                            <div class="input-group custom-file-button mt-5 pt-5">
+                                <input asp-for="ProfilePhoto" class="form-control custom-file-input" id="customFile">
+                            </div>
+                        </div>
+
+                        <div class="form-group pt-0 mt-0">
+                            <div ID="HiddenDiv" style="visibility: hidden;">
+                                <input asp-for="PhotoUrl" id="PhotoUrl" value="" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div style="height: inherit; width: 50%;margin-top: 180px;">
+                        <h1 style="color:#3c91e6; transform:translateY(-58px);">Thông tin sách</h1>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div style="transform:translateY(-45px);">
+                            <div class="form-group" style="width: 80%;">
+                                <label asp-for="MaSach" class="control-label" style="font-size:18px; margin-bottom:5px; font-weight:bold;">Mã sách</label>
+                                <input type="number" asp-for="MaSach" class="form-control input-lg" style="height:40px; font-size: 17px;" />
+                                <span asp-validation-for="MaSach" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group" style="width: 80%;">
+                                <label asp-for="TenSach" class="control-label"  style="font-size:18px; margin-bottom:5px; font-weight:bold;">Tên sách</label>
+                                <input asp-for="TenSach" class="form-control input-lg" style="height:40px; font-size: 17px;" />
+                                <span asp-validation-for="TenSach" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group" style="width: 80%;">
+                                <label asp-for="TacGia" class="control-label"  style="font-size:18px; margin-bottom:5px; font-weight:bold;">Tác giả</label>
+                                <input asp-for="TacGia" class="form-control input-lg" style="height:40px; font-size: 17px;"/>
+                                <span asp-validation-for="TacGia" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group" style="width: 80%;">
+                                <label asp-for="TheLoai" class="control-label"  style="font-size:18px; margin-bottom:5px; font-weight:bold;">Thể loại</label>
+                                <input asp-for="TheLoai" class="form-control input-lg" style="height:40px; font-size: 17px;"/>
+                                <span asp-validation-for="TheLoai" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group" style="width: 80%;">
+                                <label asp-for="SoLuongSach" class="control-label"  style="font-size:18px; margin-bottom:5px; font-weight:bold;">Số lượng sách</label>
+                                <input asp-for="SoLuongSach" class="form-control input-lg" style="height:40px; font-size: 17px;" />
+                                <span asp-validation-for="SoLuongSach" class="text-danger"></span>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" style=" height:40px; width:120px; font-size:15px; font-weight:bold; text-align:center;  margin-top:28px; transform:translateX(420px);">Thêm sách</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div style="transform:translate(20px,-40px);">
+            <a style="font-size:15px;" asp-action="Index">Back to list</a>
+        </div>
+
+
+    </div>
+</body>
+</html>
+
+
+
+
+
+@section Scripts {
+    <script>
+
+        $(".custom-file-input").on("change", function () {
+
+            var fileName = $(this).val().split("\\").pop();
+
+            document.getElementById('PreviewPhoto').src = window.URL.createObjectURL(this.files[0]);
+
+            document.getElementById('PhotoUrl').value = fileName;
+
+        });
+
+        // Load the edit form into the modal body via AJAX
+        $(document).ready(function () {
+            $('[data-toggle="modal"]').click(function () {
+                var url = $(this).data('url');
+                $('#editModal').modal('show').find('.modal-body').load(url);
+            });
+        });
+    </script>
+}
+

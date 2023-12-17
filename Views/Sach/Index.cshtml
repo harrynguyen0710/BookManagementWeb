@@ -1,0 +1,82 @@
+﻿
+@model IEnumerable<BookManagementWeb.Models.Entities.Sach>
+
+<main>
+    <h1>Danh sách thông tin sách</h1>
+    <ul class="box-info">
+        <li>
+            <img src="~/images/Cambridge-Grammar-for-IELTS.png" style="width=100px; height:150px;" />
+            <span class="text">
+                <h3>1020</h3>
+                <p>Sách bán chạy nhất tháng 12</p>
+            </span>
+
+
+        </li>
+        <li>
+            <img src="~/images/Cambridge-Grammar-for-IELTS.png" style="width=100px; height:150px;" />
+            <span class="text">
+                <h3>2834</h3>
+                <p>Sách mang lại nhiều doanh thu nhất</p>
+            </span>
+        </li>
+        <li>
+            <img src="~/images/Cambridge-Grammar-for-IELTS.png" style="width=100px; height:150px;" />
+            <span class="text">
+                <h3>$2543</h3>
+                <p>Tổng số sách mới</p>
+            </span>
+        </li>
+    </ul>
+
+    <div class="table-data" style="height:600px;">
+        <div class="order">
+            <div class="head">
+                <h3>Sách</h3>
+                <a asp-action="Create">
+                    <i class='bx bx-plus' style="font-size:30px; color:green; font-weight: bold;"></i>
+                </a>
+                <i class='bx bx-filter' style="font-size:30px;"></i>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tên sách</th>
+                        <th>Mã sách</th>
+                        <th>Thể loại</th>
+                        <th>Tác giả</th>
+                        <th>Số lượng</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img src="~/images/@item.PhotoUrl" />
+
+                                <p style="cursor:pointer; font-size:18px;">@Html.DisplayFor(modelItem => item.TenSach)</p>
+                            </td>
+                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.MaSach)</td>
+                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.TheLoai)</td>
+                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.TacGia)</td>
+                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.SoLuongSach)</td>
+                            <td style="transform:translateX(50px);">
+                                <a style="background-color:#ffd717; color: #ffffff; font-weight: bold; border-radius: 15px; width: 85px; height: 43px; cursor: pointer; border: none; cursor:pointer; margin-right:14px; display: inline-flex; align-items: center; justify-content: center;"
+                                   asp-action="Edit" asp-route-maSach="@item.MaSach"> Sửa</a>
+                                <a asp-action="Delete"  asp-route-maSach="@item.MaSach" style="background-color: #c92127; color: #ffffff; font-weight: bold; border-radius: 15px; cursor:pointer; width: 65px; height: 43px; border: none; display: inline-flex; align-items: center; justify-content: center;">
+                                    Xoá
+                                </a>
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+</main>
