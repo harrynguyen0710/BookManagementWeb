@@ -5,11 +5,10 @@ namespace BookManagementWeb.Models.Entities
 {
     public class CTHoaDon
     {
-        [Key]
+
         [ForeignKey("HoaDon")]
         public int MaHoaDon { get; set; }
 
-        [Key]
         [ForeignKey("Sach")]
         public int MaSach { get; set; }
 
@@ -21,6 +20,8 @@ namespace BookManagementWeb.Models.Entities
 
         public virtual HoaDon HoaDon { get; set; }
         public virtual Sach Sach { get; set; }
+
+       
 
     }
 }

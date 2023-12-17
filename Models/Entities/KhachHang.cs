@@ -21,5 +21,8 @@ namespace BookManagementWeb.Models.Entities
         [Column(TypeName = "nvarchar(100)")]
         public string DiaChi { get; set; }
         public decimal SoTienNo { get; set; }
+
+        public virtual ICollection<HoaDon> HoaDonCollectionKH {  get; set; }
+
     }
 }

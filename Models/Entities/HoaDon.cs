@@ -16,5 +16,8 @@ namespace BookManagementWeb.Models.Entities
         [ForeignKey("KhachHang")]
         public int MaKhachHang { get; set; }
         public virtual KhachHang KhachHang { get; set; }
+
+        public virtual ICollection<CTHoaDon> CTHoaDonCollectionHD { get; set; }
+        public virtual ICollection<PhieuThuTien> PhieuThuTienCollection { get; set; }
     }
 }

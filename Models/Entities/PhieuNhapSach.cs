@@ -12,5 +12,8 @@ namespace BookManagementWeb.Models.Entities
         [Required(ErrorMessage = "Vui lòng nhập thời gian lập phiếu")]
         [Column(TypeName = "date")]
         public DateTime NgayLapPhieuNhap { get; set; }
+
+        public virtual ICollection<CTPhieuNhapSach> CTPhieuNhapSachPN { get; set; }
+
     }
 }
