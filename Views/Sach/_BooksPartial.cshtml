@@ -1,0 +1,55 @@
+﻿@using BookManagementWeb.Models.Entities
+@model List<Sach>
+
+<style>
+    .book-table {
+        width: 100%; /* Chiều rộng của bảng */
+        border-collapse: collapse; /* Loại bỏ khoảng trắng giữa các ô */
+    }
+
+        .book-table th, .book-table td {
+            padding: 10px; /* Khoảng cách giữa nội dung và mép của ô */
+            text-align: left; /* Canh lề nội dung về bên trái */
+        }
+
+    .book-image {
+        width: 100px; /* Kích thước bạn muốn đặt cho hình ảnh */
+        height: 150px; /* Kích thước bạn muốn đặt cho hình ảnh */
+        object-fit: cover; /* Loại tỷ lệ chiều cao và chiều rộng để giữ nguyên tỷ lệ khung */
+    }
+</style>
+
+<table class="book-table">
+    <thead>
+        <tr>
+            <th>Tên sách</th>
+            <th>Mã sách</th>
+            <th>Thể loại</th>
+            <th>Tác giả</th>
+            <th>Số lượng</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="~/images/@item.PhotoUrl" class="book-image" />
+                    <p style="cursor:pointer; font-size:18px; margin-top: 10px;">@Html.DisplayFor(modelItem => item.TenSach)</p>
+                </td>
+                <td style="font-size:18px; vertical-align: middle;">@Html.DisplayFor(modelItem => item.MaSach)</td>
+                <td style="font-size:18px; vertical-align: middle;">@Html.DisplayFor(modelItem => item.TheLoai)</td>
+                <td style="font-size:18px; vertical-align: middle;">@Html.DisplayFor(modelItem => item.TacGia)</td>
+                <td style="font-size:18px; vertical-align: middle;">@Html.DisplayFor(modelItem => item.SoLuongSach)</td>
+                <td style="font-size:18px; vertical-align: middle;">
+                    <a style="background-color:#ffd717; color: #ffffff; font-weight: bold; border-radius: 15px; width: 85px; height: 43px; cursor: pointer; border: none; cursor:pointer; margin-right:14px; display: inline-flex; align-items: center; justify-content: center;"
+                       asp-action="Edit" asp-route-maSach="@item.MaSach"> Sửa</a>
+                    <a asp-action="Delete" asp-route-maSach="@item.MaSach" style="background-color: #c92127; color: #ffffff; font-weight: bold; border-radius: 15px; cursor:pointer; width: 65px; height: 43px; border: none; display: inline-flex; align-items: center; justify-content: center;">
+                        Xoá
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

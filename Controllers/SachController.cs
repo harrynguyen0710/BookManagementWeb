@@ -2,6 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using BookManagementWeb.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.Diagnostics.Eventing.Reader;
 
 namespace BookManagementWeb.Controllers
 {
@@ -16,10 +22,14 @@ namespace BookManagementWeb.Controllers
             _webHost = webHost;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string SearchString)
         {
             List<Sach> sachList = new List<Sach>();
             sachList = _context.SACH.ToList();
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                sachList = sachList.Where(x => x.TenSach.Contains(SearchString)).ToList();
+            }
             return View(sachList);
         }
 
@@ -36,25 +46,44 @@ namespace BookManagementWeb.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    string uniqueFileName = GetProfilePhotoFileName(sach);
-                    sach.PhotoUrl = uniqueFileName;
-                    _context.SACH.Add(sach);
-                    _context.SaveChanges();
-                    return RedirectToAction(nameof(Index));
-                }
-                // If ModelState is not valid, return to the view with validation errors.
-                return View(sach);
+                string uniqueFileName = GetProfilePhotoFileName(sach);
+                sach.PhotoUrl = uniqueFileName;
+               
+                _context.SACH.Add(sach);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
             {
-                // Log the exception for debugging purposes.
-                Console.WriteLine(ex.Message);
+                // Xử lý ngoại lệ
                 return View();
             }
         }
+        [HttpGet]
+        public IActionResult GetGenres()
+        {
+            var genres = _context.SACH.Select(s => s.TheLoai).Distinct().ToList();
+            return View("_GenresPartial", genres);
+        }
 
+        [HttpGet]
+        public IActionResult GetBooksByGenre(string genre)
+        {
+            var booksByGenre = new List<Sach>();
+
+            if (!string.IsNullOrEmpty(genre))
+            {
+                // Lọc sách theo thể loại
+                booksByGenre = _context.SACH.Where(x => x.TheLoai == genre).ToList();
+            }
+            else
+            {
+                // Nếu thể loại không được chọn, hiển thị toàn bộ sách
+                booksByGenre = _context.SACH.ToList();
+            }
+
+            return PartialView("_BooksPartial", booksByGenre);
+        }
         [HttpGet]
         public IActionResult Edit(int maSach)
         {
@@ -95,12 +124,8 @@ namespace BookManagementWeb.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
 
-            
+
         }
-
-
-
-
 
         private string GetProfilePhotoFileName(Sach sach)
         {
