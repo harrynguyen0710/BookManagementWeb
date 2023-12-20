@@ -15,7 +15,10 @@ namespace BookManagementWeb.Controllers
             _context = context;
             _webHost = webHost;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             List<Sach> sachList = new List<Sach>();
