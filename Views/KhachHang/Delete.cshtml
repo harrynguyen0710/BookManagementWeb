@@ -1,0 +1,93 @@
+﻿@model BookManagementWeb.Models.Entities.KhachHang;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="main-body" style="background-color:#f9f9f9; margin: 60px 50px 0 50px; border-radius:12px; height: 600px;
+       ">
+        @*        <h1>Xóa Khách hàng</h1>*@
+        <div class="row" style="height:inherit; width:100%;">
+            <div class="col-md-4" style="height:inherit; width:100%;">
+                <form asp-action="Delete" asp-controller="KhachHang" enctype="multipart/form-data" method="post"
+                      style="display:flex; flex-direction:row; justify-content:space-between; align-items:center; height:inherit; width:100%;">
+
+                    <div style=" height: inherit; width: 50%; display:flex; flex-direction:column; align-items:center; justify-content: center;
+                       transform:translate(-30px,15px); ">
+                        <div class="form-group col-4 p-0" style=" transform: translateX(-80px);">
+                            <label class="control-label"></label>
+                        </div>
+
+                        <div class="col-1 p-0">
+                        </div>
+
+                    </div>
+
+                    <div style="height: inherit; width: 50%;margin-top: 180px;">
+                        <h1 style="color:#3c91e6; transform:translateY(-58px);">Thông tin khách hàng</h1>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div style="transform:translateY(-45px);">
+                            <div class="form-group" style="width: 80%;">
+                                <label asp-for="MaKhachHang" class="control-label" style="font-size:18px; margin-bottom:5px; font-weight:bold;">Mã khách hàng</label>
+                                <input readonly type="number" asp-for="MaKhachHang" class="form-control input-lg" style="height:40px; font-size: 17px;" />
+                                <span asp-validation-for="MaKhachHang" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group" style="width: 80%;">
+                                <label asp-for="HoVaTen" class="control-label" style="font-size:18px; margin-bottom:5px; font-weight:bold;">Tên khách hàng</label>
+                                <input asp-for="HoVaTen" class="form-control input-lg" style="height:40px; font-size: 17px;" />
+                                <span asp-validation-for="HoVaTen" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group" style="width: 80%;">
+                                <label asp-for="GioiTinh" class="control-label" style="font-size:18px; margin-bottom:5px; font-weight:bold;">Giới tính</label>
+                                <select asp-for="GioiTinh" class="form-control input-lg">
+                                    <option value="true">Nam</option>
+                                    <option value="false">Nữ</option>
+                                </select>
+                                <span asp-validation-for="GioiTinh" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="form-group" style="width: 80%;">
+                                <label asp-for="Email" class="control-label" style="font-size:18px; margin-bottom:5px; font-weight:bold;">Email</label>
+                                <input asp-for="Email" class="form-control input-lg" style="height:40px; font-size: 17px;" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group" style="width: 80%;">
+                                <label asp-for="SDT" class="control-label" style="font-size:18px; margin-bottom:5px; font-weight:bold;">SĐT</label>
+                                <input asp-for="SDT" class="form-control input-lg" style="height:40px; font-size: 17px;" />
+                                <span asp-validation-for="SDT" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group" style="width: 80%;">
+                                <label asp-for="DiaChi" class="control-label" style="font-size:18px; margin-bottom:5px; font-weight:bold;">Địa chỉ</label>
+                                <input asp-for="DiaChi" class="form-control input-lg" style="height:40px; font-size: 17px;" />
+                                <span asp-validation-for="DiaChi" class="text-danger"></span>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg" style=" height:40px; width:120px; font-size:15px; font-weight:bold; text-align:center;  margin-top:28px; transform:translateX(420px);">Xóa</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div style="transform:translate(20px,-40px);">
+            <a style="font-size:15px;" asp-action="Index">Back to list</a>
+        </div>
+
+
+    </div>
+</body>
+</html>
+
