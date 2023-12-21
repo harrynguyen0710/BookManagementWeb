@@ -1,0 +1,114 @@
+﻿@model BookManagementWeb.ViewModel.PhieuNhapViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Table</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+    <h2>Create</h2>
+
+    <form asp-action="Create" asp-controller="PhieuNhapSach" method="post">
+        <div class="form-group">
+            <label asp-for="maSach" class="control-label">Sách</label>
+            @Html.DropDownListFor(model => model.maSach, (SelectList)ViewBag.SachList, "-- Chọn sách --", new { @class = "form-control", id = "sachDropdown" })
+            <span asp-validation-for="maSach" class="text-danger"></span>
+        </div>
+
+        <div class="form-group" style="width: 80%;">
+            <label asp-for="soLuongNhap" class="control-label" style="font-size:18px; margin-bottom:5px; font-weight:bold;">Số lượng</label>
+            @Html.TextBoxFor(model => model.soLuongNhap, new { @class = "form-control input-lg", style = "height:40px; font-size: 17px;" })
+            @* <input type="text" asp-for="soLuongNhap" class="form-control input-lg" style="height:40px; font-size: 17px;" /> *@
+            <span asp-validation-for="soLuongNhap" class="text-danger"></span>
+        </div>
+
+        <div class="form-group" style="width: 80%;">
+            <label asp-for="donGiaNhap" class="control-label" style="font-size:18px; margin-bottom:5px; font-weight:bold;">Đơn giá</label>
+            @Html.TextBoxFor(model => model.donGiaNhap, new { @class = "form-control input-lg", style = "height:40px; font-size: 17px;" })
+            @* <input type="text" asp-for="donGiaNhap" class="form-control input-lg" style="height:40px; font-size: 17px;" /> *@
+            <span asp-validation-for="donGiaNhap" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <button id="addRowBtn">Thêm sách</button>
+    <table id="myTable">
+
+        <thead>
+            <tr>
+                <th>Mã sách</th>
+                <th>Tên sách</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <!-- Existing rows if any -->
+        </tbody>
+
+    </table>
+
+    <script>
+        var table = document.getElementById('myTable');
+
+        function addData(element) {
+            var row = table.insertRow();
+            row.insertCell().innerHTML = element.maSach;
+            row.insertCell().innerHTML = element.tenSach;
+            row.insertCell().innerHTML = element.soluong;
+            row.insertCell().innerHTML = element.donGia;
+            row.insertCell().innerHTML = "<button class='deleteRowBtn' onclick='deleteRow(this)'>Delete</button>";
+        }
+
+        function displayErrorMessage(message) {
+            alert(message);
+        }
+
+        $("#addRowBtn").on("click", function () {
+            var soluong = parseInt($("#soLuongNhap").val(), 10);
+            var donGia = parseInt($("#donGiaNhap").val(), 10);
+
+            if ($("#sachDropdown").val() == null || $("#sachDropdown").val() == "") {
+                displayErrorMessage("Sách chưa được chọn");
+                return;
+            }
+
+            if (isNaN(soluong) == true || soluong < 10) {
+                displayErrorMessage("Số lượng không hợp lệ, phải lớn hơn hoặc bằng 10");
+                return;
+            }
+
+            if (isNaN(donGia) == true || donGia < 10000) {
+                displayErrorMessage("Đơn giá không hợp lệ, phải lớn hơn hoặc bằng 10,000");
+                return;
+            }
+
+            var newData = {
+                maSach: $("#sachDropdown").val(),
+                tenSach: $("#sachDropdown option:selected").text(),
+                soluong: soluong,
+                donGia: donGia,
+            };
+
+            addData(newData);
+        });
+
+        function deleteRow(button) {
+            var row = button.closest("tr");
+            row.remove();
+        }
+
+    </script>
+</body>
+</html>
+
+
+
