@@ -1,0 +1,50 @@
+﻿@model BookManagementWeb.ViewModel.PhieuNhapViewModel
+
+<main>
+    <h1>Thông tin phiếu nhập</h1>
+
+
+    <div class="table-data" style="height:600px;">
+        <div class="order">
+            <div class="head">
+                <a asp-action="Create">
+                    <i class='bx bx-plus' style="font-size:30px; color:green; font-weight: bold;"></i>
+                </a>
+                <i class='bx bx-filter' style="font-size:30px;"></i>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mã phiếu</th>
+                        <th>Ngày lập</th>
+                        <th>Số lượng</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.maPhieuNhapSach.Count(); i++)
+                    {
+                        <tr>
+                            <td>
+                                <p style="cursor:pointer; font-size:18px;">@Html.DisplayFor(modelItem => Model.maPhieuNhapSach[i])</p>
+                            </td>
+                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => Model.maPhieuNhapSach[i])</td>
+                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => Model.ngayLapPhieuNhap[i])</td>
+                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => Model.soLuongNhap[i])</td>
+                            <td style="transform:translateX(50px);">
+
+                                <a asp-action="Delete" asp-route-maSach="@Model.maPhieuNhapSach[i]" style="background-color: #c92127; color: #ffffff; font-weight: bold; border-radius: 15px; cursor:pointer; width: 65px; height: 43px; border: none; display: inline-flex; align-items: center; justify-content: center;">
+                                    Xoá
+                                </a>
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+</main>
