@@ -91,6 +91,8 @@ namespace BookManagementWeb.Controllers
             TempData["TienNo"] = LayTienNoCuaKhach(hdVM.HDSachList[0].MaKhachHang).ToString();
             return RedirectToAction("Create", "PhieuThuTien");
         }
+
+
         public decimal LayTienNoCuaKhach(int maKhachHang)
         {
             var tienNo = _context.KHACHHANG.Where(x => x.MaKhachHang == maKhachHang)
