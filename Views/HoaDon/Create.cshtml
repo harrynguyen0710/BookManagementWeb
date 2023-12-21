@@ -79,7 +79,7 @@
                         <div class="form-group">
                             <label for="SoLuongBan" style="font-weight:bold;">Nhập Số Lượng</label>
                             <input class="form-control" id="SoLuongBan" min="0" />
-                            <span id="soLuongBanError" class="text-danger"></span>
+                            <span asp-validation-for="SoLuongBan" id="soLuongBanError" class="text-danger"></span>
 
 
                         </div>
@@ -87,7 +87,7 @@
                         <div class="form-group" style="margin-left: 100px;">
                             <label for="DonGiaBan" style="font-weight:bold;">Nhập đơn giá bán</label>
                             <input class="form-control" step="0.01" id="DonGiaBan" min="0" />
-                            <span id="donGiaBanError" class="text-danger"></span>
+                            <span id="donGiaBanError" asp-validation-for="DonGiaBan" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -115,10 +115,12 @@
                         </tr>
                     </thead>
                     <tbody id="bookList" >
+
                     </tbody>
+                    <span id="LoiFormRong"></span>
                 </table>
             </div>
-            <button style="margin-top: 40px; border-radius: 15px; font-weight: bold; transform:translateX(1050px);" type="submit" class="btn btn-primary">Thành tiền</button>
+            <button id="nut-thanhtien" onclick="TaoHoaDon(event);" style="margin-top: 40px; border-radius: 15px; font-weight: bold; transform:translateX(1050px);" type="submit" class="btn btn-primary">Thành tiền</button>
         </form>
     </div>
 
@@ -154,6 +156,7 @@
             });
         }
 
+
         function HienThiLoiSoLuongTonSach(soLuongSachTonTrongKho, soLuongSachBan) {
             if (soLuongSachTonTrongKho < soLuongSachBan) {
                 soLuongBanError.innerText = `Số lượng tồn trong kho là ${soLuongSachTonTrongKho}, không thể thực hiện giao dịch!`;
@@ -179,22 +182,40 @@
         const dateBillInput = document.getElementById("NgayLapHDIP")
         const billId = document.getElementById("MaHoaDonIP")
         const customerId = document.getElementById("MaKhachHangIP")
+        const nutThanhTien = document.getElementById("nut-thanhtien")
+        const loiFormRong = document.getElementById("LoiFormRong")
 
         const canhBaoSoLuongSachTonTrongKho = document.getElementById("soLuongTrongKho");
 
 
         const bookList = document.getElementById("bookList");
 
+        function TaoHoaDon(event) {
+            if (!window.HDSachList) {
+                loiFormRong.innerText = "Vui lòng điền form hoá đơn";
+                loiFormRong.style.color = "red";
+                setTimeout(function () {
+                    loiFormRong.innerText = "";
+                }, 7000);
+                event.preventDefault();
+                return;
+            }
+
+
+
+        }
+
+
         async function ThemSach() {
 
-            if (numberInput.value.trim() === '') {
+            if (numberInput.value.trim() === '' || numberInput.value.trim() == 0) {
                 document.getElementById("soLuongBanError").innerText = "Vui lòng nhập số lượng.";
                 return;
             } else {
                 document.getElementById("soLuongBanError").innerText = "";
             }
 
-            if (priceInput.value.trim() === '') {
+            if (priceInput.value.trim() === '' || priceInput.value.trim() == 0) {
                 document.getElementById("donGiaBanError").innerText = "Vui lòng nhập đơn giá bán.";
                 return;
             } else {
@@ -260,6 +281,7 @@
 
                 window.HDSachList.push(hoaDonItem);
 
+
                 for (var i in window.HDSachList) {
                     var item = window.HDSachList[i];
                     console.log(item.MaHoaDon);
@@ -271,6 +293,10 @@
                     console.log("--------");
                 }
 
+
+
+
+
             }
 
 
@@ -281,6 +307,7 @@
             LamMoiInput();
 
         }
+
 
         function XoaSach(index) {
             console.log("Trong xoá sách")

@@ -9,6 +9,8 @@ namespace BookManagementWeb.ViewModel
         public DateTime NgayLapHoaDon { get; set; }
         public int MaKhachHang { get; set; }
 
+        public string TenKhachHang { get; set; }
+
         // CT HD + (Ma hoa don)
         public int SoLuongBan { get; set; }
         public decimal DonGiaBan { get; set; }
@@ -20,9 +22,9 @@ namespace BookManagementWeb.ViewModel
         public string TenSach { get; set; }
         public string TacGia { get; set; }
         public string TheLoai { get; set; }
-        public int SoLuongSach { get; set; }
-        public string PhotoUrl { get; set; }
-        public IFormFile ProfilePhoto { get; set; }
+
+/*        public string PhotoUrl { get; set; }
+        public IFormFile ProfilePhoto { get; set; }*/
 
         List<CTHoaDonViewModel> cthdVMList { get; set; }
 

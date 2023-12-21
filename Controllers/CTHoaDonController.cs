@@ -17,30 +17,45 @@ namespace BookManagementWeb.Controllers
         {
             List<int> ttMaSach = new List<int>();
             List<Sach> sachList = new List<Sach>();
-          /*  List<>*/
-/*            CTHoaDonViewModel ctHD = new CTHoaDonViewModel();
-*/            var hoaDon = _context.HOADONBANSACH.Where(x => x.MaHoaDon == maHoaDon).FirstOrDefault();
+            List<CTHoaDonViewModel> ctHDList = new List<CTHoaDonViewModel>();
+            var hoaDon = _context.HOADONBANSACH.Where(x => x.MaHoaDon == maHoaDon).FirstOrDefault();
             var phieuThuTien = _context.PHIEUTHUTIEN.Where(x => x.MaHoaDon == maHoaDon).FirstOrDefault();
             var CTHDList = _context.CTHOADONBANSACH.Where(x => x.MaHoaDon == maHoaDon).ToList();
+
+            int maKhachHang = _context.HOADONBANSACH
+                .Where(x => x.MaHoaDon == maHoaDon)
+                .Select(x => x.MaKhachHang)
+                .FirstOrDefault();
+            string tenKhachHang = _context.KHACHHANG.Where(x => x.MaKhachHang == maKhachHang).Select(x => x.HoVaTen).FirstOrDefault();
+
             foreach(var i in CTHDList)
             {
                 ttMaSach.Add(i.MaSach);
             }
 
-            for(int i = 0; i < ttMaSach.Count; i++)
+            int j = 0;
+            foreach(var i in CTHDList)
             {
-                var sach = _context.SACH.Where(x => x.MaSach == ttMaSach[i]).FirstOrDefault();
-                sachList.Add(sach);
+                CTHoaDonViewModel ctHD = new CTHoaDonViewModel();
+                ctHD.MaHoaDon = hoaDon.MaHoaDon;
+                ctHD.NgayLapHoaDon = hoaDon.NgayLapHoaDon;
+                ctHD.MaKhachHang = maKhachHang;
+                ctHD.TenKhachHang = tenKhachHang;
+                ctHD.SoLuongBan = i.SoLuongBan;
+                ctHD.DonGiaBan = i.DonGiaBan;
+                ctHD.TongSoTienThu = phieuThuTien.TongSoTienThu;
+                ctHD.SoTienKhachNo = phieuThuTien.SoTienKhachNo;
+                ctHD.MaSach = ttMaSach[j];
+                ctHD.TenSach = _context.SACH.Where(x => x.MaSach == ctHD.MaSach).Select(x => x.TenSach).FirstOrDefault();
+                ctHD.TacGia = _context.SACH.Where(x => x.MaSach == ctHD.MaSach).Select(x => x.TacGia).FirstOrDefault();
+                ctHD.TheLoai = _context.SACH.Where(x => x.MaSach == ctHD.MaSach).Select(x => x.TheLoai).FirstOrDefault();
+                
+                ctHDList.Add(ctHD);
+                j += 1;
             }
 
-            foreach(var i in sachList)
-            {
 
-
-            }
-
-
-            return View();
+            return View(ctHDList);
         }
     }
 }
