@@ -27,23 +27,20 @@ namespace BookManagementWeb.Controllers
             _webHost = webHost;
         }
 
-
         public IActionResult Index(int? page, int? pageSize, string SearchString)
         {
-            //List<Sach> sachList = new List<Sach>();
-            
-           // sachList = _context.SACH.ToList();
             page = page ?? 1;
             pageSize = pageSize ?? 5;
-           var book = _context.SACH.AsQueryable();
-            
+            var book = _context.SACH.AsQueryable();
+
             if (!string.IsNullOrEmpty(SearchString))
             {
-                book = book.Where(x => x.TenSach.Contains(SearchString)).ToList();
+                book = book.Where(x => x.TenSach.Contains(SearchString));
             }
-            return View(book.ToPagedList(page.Value, pageSize.Value));
 
+            return View(book.ToList().ToPagedList(page.Value, pageSize.Value));
         }
+
 
         [HttpGet]
         public IActionResult Create()
