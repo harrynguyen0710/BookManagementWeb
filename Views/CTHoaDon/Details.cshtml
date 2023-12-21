@@ -1,0 +1,56 @@
+﻿@model List<BookManagementWeb.ViewModel.CTHoaDonViewModel>
+
+
+<main>
+    <h2>Hóa Đơn</h2>
+    <div class="table-data" style="height: 200px; margin-top: -5px;">
+        <div class="order">
+            <div>
+                <div><span>Mã hoá đơn </span>@Model[0].MaHoaDon</div>
+                <div><span>Ngày lập: </span> @Model[0].NgayLapHoaDon</div>
+                <div><span>Mã khách hàng: </span>@Model[0].MaKhachHang</div>
+                <div><span>Khách hàng: </span>@Model[0].TenKhachHang</div>
+                <div><span>Số nợ: </span>@Model[0].SoTienKhachNo</div>
+                <div><span>Tiền thu: </span>@Model[0].TongSoTienThu</div>
+            </div>
+
+        </div>
+    </div>
+    <div class="table-data" style="height:400px;">
+        <div class="order" style="margin-top:10px;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tên Sách</th>
+                        <th>Mã Sách</th>
+                        <th>Thể loại</th>
+                        <th>Tác giả</th>
+                        <th>Số lượng bán</th>
+                        <th>Đơn giá bán</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ctHD in Model)
+                    {
+                        <tr>
+                            <td>@ctHD.TenSach</td>
+                            <td>@ctHD.MaSach</td>
+                            <td>@ctHD.TheLoai</td>
+                            <td>@ctHD.TacGia</td>
+                            <td>@ctHD.SoLuongBan</td>
+                            <td>@ctHD.DonGiaBan</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+     
+    <a style="font-weight:bold; transform:translate(5px,20px); " asp-action="Index" asp-controller="HoaDon">Quay lại</a>
+</main>
+
+
+
+

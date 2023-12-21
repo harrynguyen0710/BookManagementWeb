@@ -4,6 +4,8 @@ namespace BookManagementWeb.Data
 {
     public class BookstoreDbContext : DbContext
     {
+        internal object TheLoai;
+
         public BookstoreDbContext() { }
         public BookstoreDbContext(DbContextOptions<BookstoreDbContext> options)
             : base(options) { }

@@ -3,12 +3,37 @@
 <main>
     <h1>Danh sách thông tin khách hàng</h1>
 
+    <ul class="box-info">
+        <li>
+            <img src="~/images/Cambridge-Grammar-for-IELTS.png" style="width=100px; height:150px;" />
+            <span class="text">
+                <h3>Dương Nhật Khoa</h3>
+                <p>Khách hàng mới</p>
+            </span>
+
+
+        </li>
+        <li>
+            <img src="~/images/Cambridge-Grammar-for-IELTS.png" style="width=100px; height:150px;" />
+            <span class="text">
+                <h3>Nguyễn Ngọc Phú</h3>
+                <p>Khách hàng mua nhiều nhất</p>
+            </span>
+        </li>
+        <li>
+            <img src="~/images/Cambridge-Grammar-for-IELTS.png" style="width=100px; height:150px;" />
+            <span class="text">
+                <h3>Đỗ Mạnh Hùng</h3>
+                <p>Khách hàng nợ nhiều nhất</p>
+            </span>
+        </li>
+    </ul>
 
     <div class="table-data" style="height:600px;">
         <div class="order">
             <div class="head">
-                <h3>Khách hàng</h3>
-                <a asp-action="Create">
+                <h3>Khách Hàng</h3>
+                <a asp-action="Create" asp-controller="KhachHang">
                     <i class='bx bx-plus' style="font-size:30px; color:green; font-weight: bold;"></i>
                 </a>
                 <i class='bx bx-filter' style="font-size:30px;"></i>
@@ -16,6 +41,7 @@
             <table>
                 <thead>
                     <tr>
+
                         <th>Mã khách</th>
                         <th>Họ và tên</th>
                         <th>Giới tính</th>
@@ -23,6 +49,7 @@
                         <th>Số điện thoại</th>
                         <th>Địa chỉ</th>
                         <th>Số tiền nợ</th>
+
                         <th></th>
                     </tr>
                 </thead>
@@ -33,6 +60,7 @@
                             <td>
                                 <p style="cursor:pointer; font-size:18px;">@Html.DisplayFor(modelItem => item.MaKhachHang)</p>
                             </td>
+
                             <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.MaKhachHang)</td>
                             <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.HoVaTen)</td>
                             <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.GioiTinh)</td>
@@ -48,7 +76,6 @@
                                 </a>
                             </td>
                         </tr>
-
                     }
                 </tbody>
             </table>

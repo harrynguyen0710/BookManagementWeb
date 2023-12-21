@@ -1,9 +1,15 @@
-﻿
-@model IEnumerable<BookManagementWeb.Models.Entities.Sach>
+
+@model IPagedList<BookManagementWeb.Models.Entities.Sach>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc;
+@using X.PagedList;
+
 
 <main>
-    <h1>Danh sách thông tin sách</h1>
-    <ul class="box-info">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách thông tin sách</title>
+    <ul class="box-info">   
         <li>
             <img src="~/images/Cambridge-Grammar-for-IELTS.png" style="width=100px; height:150px;" />
             <span class="text">
@@ -33,10 +39,25 @@
         <div class="order">
             <div class="head">
                 <h3>Sách</h3>
+                <a asp-action="GetGenres">
+                    <i class='bx bx-filter' style="font-size:30px;"></i>
+
+                </a>
                 <a asp-action="Create">
                     <i class='bx bx-plus' style="font-size:30px; color:green; font-weight: bold;"></i>
                 </a>
-                <i class='bx bx-filter' style="font-size:30px;"></i>
+                @using (Html.BeginForm("Index", "Sach", FormMethod.Post))
+                {
+                    <p>
+                        Tìm tên sách: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                        <input type="submit" value="Tìm kiếm" />
+                    </p>
+                }
+                <div id="genresContainer"></div>
+                <div id="booksContainerWrapper">
+                <div id="booksContainer"></div>
+                </div>
+               
             </div>
             <table>
                 <thead>
@@ -64,7 +85,9 @@
                             <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.SoLuongSach)</td>
                             <td style="transform:translateX(50px);">
                                 <a style="background-color:#ffd717; color: #ffffff; font-weight: bold; border-radius: 15px; width: 85px; height: 43px; cursor: pointer; border: none; cursor:pointer; margin-right:14px; display: inline-flex; align-items: center; justify-content: center;"
-                                   asp-action="Edit" asp-route-maSach="@item.MaSach"> Sửa</a>
+                                   asp-action="Edit" asp-route-maSach="@item.MaSach"> 
+                                    Sửa
+                                </a>
                                 <a asp-action="Delete"  asp-route-maSach="@item.MaSach" style="background-color: #c92127; color: #ffffff; font-weight: bold; border-radius: 15px; cursor:pointer; width: 65px; height: 43px; border: none; display: inline-flex; align-items: center; justify-content: center;">
                                     Xoá
                                 </a>
@@ -74,9 +97,54 @@
                     }
                 </tbody>
             </table>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+            </script>
         </div>
-
     </div>
+    <div class="container">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>
+    <style>
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px; /* Điều chỉnh khoảng cách từ bảng sách đến phân trang */
+        }
 
+        .pagination {
+            display: flex;
+            list-style: none;
+            padding: 0;
+        }
+
+            .pagination li {
+                margin: 0 10px;
+            }
+
+            .pagination a {
+                color: black;
+                text-decoration: none;
+                transition: background-color .3s;
+                border: 1px solid #ddd;
+                padding: 8px 16px;
+                display: inline-block;
+            }
+
+            .pagination span {
+                color: white;
+                text-decoration: none;
+                transition: background-color .3s;
+                border: 1px solid #4CAF50;
+                background-color: #4CAF50;
+                padding: 8px 16px;
+                display: inline-block;
+            }
+
+            .pagination a:hover:not(.active) {
+                background-color: #ddd;
+            }
+    </style>
 
 </main>

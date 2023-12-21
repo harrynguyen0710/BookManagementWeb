@@ -25,6 +25,10 @@
                     @for (int i = 0; i < Model.maPhieuNhapSach.Count(); i++)
                     {
                         <tr>
+
+                            <td>
+                                <p style="cursor:pointer; font-size:18px;">@Html.DisplayFor(modelItem => Model.maPhieuNhapSach[i])</p>
+                            </td>
                             <td style="font-size:18px;">@Html.DisplayFor(modelItem => Model.maPhieuNhapSach[i])</td>
                             <td style="font-size:18px;">@Html.DisplayFor(modelItem => Model.ngayLapPhieuNhap[i])</td>
                             <td style="font-size:18px;">@Html.DisplayFor(modelItem => Model.soLuongNhap[i])</td>
