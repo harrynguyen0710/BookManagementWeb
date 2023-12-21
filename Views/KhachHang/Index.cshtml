@@ -2,6 +2,7 @@
 
 <main>
     <h1>Danh sách thông tin khách hàng</h1>
+
     <ul class="box-info">
         <li>
             <img src="~/images/Cambridge-Grammar-for-IELTS.png" style="width=100px; height:150px;" />
@@ -40,12 +41,15 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Mã khách hàng</th>
+
+                        <th>Mã khách</th>
                         <th>Họ và tên</th>
                         <th>Giới tính</th>
-                        <th>SĐT</th>
                         <th>Email</th>
+                        <th>Số điện thoại</th>
                         <th>Địa chỉ</th>
+                        <th>Số tiền nợ</th>
+
                         <th></th>
                     </tr>
                 </thead>
@@ -56,20 +60,22 @@
                             <td>
                                 <p style="cursor:pointer; font-size:18px;">@Html.DisplayFor(modelItem => item.MaKhachHang)</p>
                             </td>
+
+                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.MaKhachHang)</td>
                             <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.HoVaTen)</td>
                             <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.GioiTinh)</td>
-                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.SDT)</td>
                             <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.SDT)</td>
                             <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.DiaChi)</td>
+                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.SoTienNo)</td>
                             <td style="transform:translateX(50px);">
                                 <a style="background-color:#ffd717; color: #ffffff; font-weight: bold; border-radius: 15px; width: 85px; height: 43px; cursor: pointer; border: none; cursor:pointer; margin-right:14px; display: inline-flex; align-items: center; justify-content: center;"
-                                   asp-action="Edit" asp-route-MaKhachHang="@item.MaKhachHang"> Sửa</a>
-                                <a asp-action="Delete" asp-route-MaKhachHang="@item.MaKhachHang" style="background-color: #c92127; color: #ffffff; font-weight: bold; border-radius: 15px; cursor:pointer; width: 65px; height: 43px; border: none; display: inline-flex; align-items: center; justify-content: center;">
+                                   asp-action="Edit" asp-route-maSach="@item.MaKhachHang"> Sửa</a>
+                                <a asp-action="Delete" asp-route-maSach="@item.MaKhachHang" style="background-color: #c92127; color: #ffffff; font-weight: bold; border-radius: 15px; cursor:pointer; width: 65px; height: 43px; border: none; display: inline-flex; align-items: center; justify-content: center;">
                                     Xoá
                                 </a>
                             </td>
                         </tr>
-
                     }
                 </tbody>
             </table>
