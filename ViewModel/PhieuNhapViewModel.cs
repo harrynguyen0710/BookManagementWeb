@@ -11,6 +11,5 @@ namespace BookManagementWeb.ViewModel
         public List<decimal> donGiaNhap { get; set; }
         public  List<DateTime> ngayLapPhieuNhap { get; set; }
 
-        public List<PhieuNhapViewModel> phieuNhapViewModels { get; set; } = new List<PhieuNhapViewModel>();
     }
 }

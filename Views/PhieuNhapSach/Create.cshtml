@@ -13,7 +13,7 @@
 <body>
     <h2>Create</h2>
 
-    <form asp-action="Create" asp-controller="PhieuNhapSach" method="post" enctype="multipart/form-data">
+    <form asp-action="Create" asp-controller="PhieuNhapSach" method="post" enctype="multipart/form-data" id="myForm">
         <div class="form-group">
             <label asp-for="maSach" class="control-label">Sách</label>
             @Html.DropDownListFor(model => model.maSach, (SelectList)ViewBag.SachList, "-- Chọn sách --", new { @class = "form-control", id = "sachDropdown" })
@@ -22,14 +22,14 @@
 
         <div class="form-group" style="width: 80%;">
             <label asp-for="soLuongNhap" class="control-label" style="font-size:18px; margin-bottom:5px; font-weight:bold;">Số lượng</label>
-            @Html.TextBoxFor(model => model.soLuongNhap, new { @class = "form-control input-lg", style = "height:40px; font-size: 17px;" })
+            @Html.TextBoxFor(model => model.soLuongNhap, new { @class = "form-control input-lg", id="soLuongNhap", style = "height:40px; font-size: 17px;" })
             @* <input type="text" asp-for="soLuongNhap" class="form-control input-lg" style="height:40px; font-size: 17px;" /> *@
             <span asp-validation-for="soLuongNhap" class="text-danger"></span>
         </div>
 
         <div class="form-group" style="width: 80%;">
             <label asp-for="donGiaNhap" class="control-label" style="font-size:18px; margin-bottom:5px; font-weight:bold;">Đơn giá</label>
-            @Html.TextBoxFor(model => model.donGiaNhap, new { @class = "form-control input-lg", style = "height:40px; font-size: 17px;" })
+            @Html.TextBoxFor(model => model.donGiaNhap, new { @class = "form-control input-lg", id = "donGiaNhap", style = "height:40px; font-size: 17px;" })
             @* <input type="text" asp-for="donGiaNhap" class="form-control input-lg" style="height:40px; font-size: 17px;" /> *@
             <span asp-validation-for="donGiaNhap" class="text-danger"></span>
         </div>
@@ -51,6 +51,7 @@
 
             </table>
             <button type="submit" id="submitBtn" class="btn btn-primary">Lập phiếu</button>
+
     </form>
   
     <button id="addRowBtn">Thêm sách</button>
@@ -62,17 +63,20 @@
 
     <script>
         var table = document.getElementById('myTable');
-        var dataList = [];
+
 
         function addData(element) {
             var row = table.insertRow();
-            row.insertCell().innerHTML = element.maSach;
-            row.insertCell().innerHTML = element.tenSach;
-            row.insertCell().innerHTML = element.soluong;
-            row.insertCell().innerHTML = element.donGia;
-            row.insertCell().innerHTML = "<button class='deleteRowBtn' onclick='deleteRow(this)'>Delete</button>";
-
+            row.innerHTML =
+                `
+                <td>${element.maSach}</td>
+                <td>${element.tenSach}</td>
+                <td>${element.soluong}</td>
+                <td>${element.donGia}</td>
+                <td><button class='deleteRowBtn' onclick='deleteRow(this)'>Delete</button></td>
+                `;
         }
+
 
         function displayErrorMessage(message) {
             alert(message);
@@ -114,39 +118,54 @@
         }
 
     </script>
-    <script>
-        document.getElementById("submitBtn").addEventListener("click", function () {
-            var tableData = [];
 
-            document.querySelectorAll("#myTable tbody tr").forEach(function (row) {
-                var rowData = {
-                    maSach: row.cells[0].textContent,
-                    tenSach: row.cells[1].textContent,
-                    soluong: row.cells[2].textContent,
-                    donGia: row.cells[3].textContent
-                };
-                tableData.push(rowData);
+    <script>
+        document.getElementById("myForm").addEventListener("submit", function (event) {
+
+            event.preventDefault();
+            var dataList = [];
+
+            // Define your model constructor
+            function PhieuNhapViewModel(maPhieuNhap, maSach, tenSach, soLuongNhap, donGiaNhap, ngayLap) {
+                this.maPhieuNhap = maPhieuNhap;
+                this.maSach = maSach;
+                this.tenSach = tenSach;
+                this.soLuongNhap = soLuongNhap;
+                this.donGiaNhap = donGiaNhap;
+                this.ngayLap = ngayLap;
+            }
+
+            $("#myTable tbody tr").each(function () {
+                var rowData = new PhieuNhapViewModel
+                (
+                        null, // Adjust this if necessary
+                        $(this).find(`td:eq(0)`).text(),
+                        $(this).find(`td:eq(1)`).text(),
+                        $(this).find(`td:eq(2)`).text(),
+                        $(this).find(`td:eq(3)`).text(),
+                        null // Adjust this if necessary
+                );
+
+                dataList.push(rowData);
             });
 
-            fetch("/PhieuNhapSach/Create", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
+            // Send the JSON string to the controller
+            $.ajax({
+                type: 'POST',
+                url: '/PhieuNhapSach/Create',
+                data: JSON.stringify(dataList),
+                contentType: 'application/json', // Set content type to JSON
+                success: function (response) {
+                    // Handle success
+                    console.log(response);
                 },
-                body: new URLSearchParams({ data: JSON.stringify(tableData) })
-            })
+                error: function (error) {
+                    // Handle error
+                    console.error(error.responseText);
+                }
+            });
 
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert(data.message);
-                        window.location.href = '/PhieuNhapSach/Index';
-                    } else {
-                        alert("Có lỗi xảy ra khi lưu dữ liệu.");
-                    }
-                })
-                .catch(error => console.error("Lỗi Fetch API: " + error));
-        });
+
     </script>
 </body>
 </html>

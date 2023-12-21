@@ -14,22 +14,16 @@ namespace BookManagementWeb.Controllers
     {
         private readonly BookstoreDbContext _context;
 
-        private string _currentDate;
-
         private PhieuNhapViewModel danhSachPN;
 
         private int randomMaPhieu;
-        public string CurrentDate()
-        {
-            _currentDate = DateTime.Now.Date.ToShortDateString();
-            return _currentDate;
-        }
 
         public PhieuNhapSachController(BookstoreDbContext context)
         {
             _context = context;
         }
-        
+
+        [HttpGet]
         public IActionResult Index()
         {
             List<PhieuNhapSach>? phieuNhapSach;
@@ -101,74 +95,68 @@ namespace BookManagementWeb.Controllers
                 randomMaPhieu = random.Next(1000, 9999);
             }
 
-            CurrentDate();
-
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(PhieuNhapViewModel tmp)
+        public IActionResult Create(List<PhieuNhapViewModel> DSSach)
         {
-            var data = Request.Form["data"];
+            return Json(new { DSSach });
 
-                // Chuyển đổi dữ liệu JSON thành danh sách các đối tượng PhieuNhapViewModel
-                List<PhieuNhapViewModel> tableData = JsonConvert.DeserializeObject<List<PhieuNhapViewModel>>(data);
-
-                List<CTPhieuNhapSach> ctPhieuNhapList = new List<CTPhieuNhapSach>();
-
-                foreach (var phieuNhapSach in tableData)
+            /*if (DSSach == null)
+            {
+                return Json(new { message = "DSSach is null" });
+            }
+            else
+            {
+                return Json(new { message = "DSSach is not null" });
+            }*/
+            /*List<CTPhieuNhapSach> phieuNhapSach = new List<CTPhieuNhapSach>();
+                for (int i = 0; i < DSSach.maSach.Count(); i++)
                 {
-                    for (int i = 0; i < phieuNhapSach.maSach.Count(); i++)
+                    CTPhieuNhapSach ctPhieuNhap = new CTPhieuNhapSach()
                     {
-                        CTPhieuNhapSach ctPhieuNhap = new CTPhieuNhapSach()
-                        {
-                            MaSach = phieuNhapSach.maSach[i],
-                            MaPhieuNhapSach = randomMaPhieu,
-                            SoLuongNhap = phieuNhapSach.soLuongNhap[i],
-                            DonGiaNhap = phieuNhapSach.donGiaNhap[i]
-                        };
-                        ctPhieuNhapList.Add(ctPhieuNhap);
-                    }
-                }
-
-                _context.AddRange(ctPhieuNhapList);
+                        MaSach = DSSach.maSach[i],
+                        MaPhieuNhapSach = randomMaPhieu,
+                        SoLuongNhap = DSSach.soLuongNhap[i],
+                        DonGiaNhap = DSSach.donGiaNhap[i]
+                    };
+                _context.Add(ctPhieuNhap);
                 _context.SaveChanges();
+            }
+           
 
-                List<CTPhieuNhapSach> danhSachPN;
-                danhSachPN = _context.CTPHIEUNHAPSACH.ToList();
+            List<CTPhieuNhapSach> danhSachPN;
+            danhSachPN = _context.CTPHIEUNHAPSACH.ToList();
 
-                PhieuNhapSach phieuNhap = new PhieuNhapSach()
+            PhieuNhapSach phieuNhap = new PhieuNhapSach()
+            {
+                MaPhieuNhapSach = randomMaPhieu,
+                NgayLapPhieuNhap = DateTime.Now.Date
+            };
+            _context.Add(phieuNhap);
+            _context.SaveChanges();
+
+            List<Sach>? sach;
+            sach = _context.SACH.ToList();
+
+            foreach (Sach update in sach)
+            {
+                foreach (var i in danhSachPN)
                 {
-                    MaPhieuNhapSach = randomMaPhieu,
-                    NgayLapPhieuNhap = DateTime.Now.Date
-                };
-                _context.Add(phieuNhap);
-                _context.SaveChanges();
-
-                List<Sach>? sach;
-                sach = _context.SACH.ToList();
-
-                foreach (Sach update in sach)
-                {
-                    foreach (var i in danhSachPN)
+                    if (i.MaPhieuNhapSach == randomMaPhieu)
                     {
-                        if (i.MaPhieuNhapSach == randomMaPhieu)
+                        if (update.MaSach == i.MaSach)
                         {
-                            if (update.MaSach == i.MaSach)
-                            {
-                                update.SoLuongSach += i.SoLuongNhap;
-                            }
+                            update.SoLuongSach += i.SoLuongNhap;
                         }
                     }
-                    _context.Update(update);
                 }
-                _context.SaveChanges();
-
-                // Các bước xử lý tiếp theo của bạn
-
-                return Json(new { success = true });
+                _context.Update(update);
             }
+            _context.SaveChanges();
 
-
+            return RedirectToAction("Index");*/
+        }
     }
 }
