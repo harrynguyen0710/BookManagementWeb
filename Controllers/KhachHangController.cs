@@ -16,6 +16,7 @@ namespace BookManagementWeb.Controllers
             _context = context;
             _webHost = webHost;
         }
+
         public IActionResult Index()
         {
             List<KhachHang> khList = new List<KhachHang>();

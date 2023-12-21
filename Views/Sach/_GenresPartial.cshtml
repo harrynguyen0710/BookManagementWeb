@@ -1,0 +1,61 @@
+﻿@using BookManagementWeb.Models.Entities
+@model List<string>
+
+<style>
+    #ddlGenres {
+        border-radius: 10px; /* Đặt bán kính để tạo góc bo tròn */
+        padding: 5px; /* Tăng khoảng trắng bên trong ô filter */
+        -webkit-appearance: none; /* Loại bỏ giao diện mặc định của trình duyệt */
+        -moz-appearance: none;
+        appearance: none;
+        background-color: white;
+    }
+</style>
+
+<select id="ddlGenres" title="Chọn thể loại sách" name="ddlGenres" class="form-control">
+    <option value="">-- Tất cả thể loại --</option>
+    @foreach (var genre in Model)
+    {
+        <option value="@genre">@genre</option>
+    }
+</select>
+
+<div id="booksContainer"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Gọi action để lấy danh sách thể loại
+        $.ajax({
+            url: '@Url.Action("GetGenres", "Sach")',
+            type: 'GET',
+            success: function (result) {
+                // Hiển thị dropdownlist thể loại
+                $('#genresContainer').html(result);
+            }
+        });
+
+        // Sự kiện khi thay đổi thể loại
+        $('#ddlGenres').on('change', function (e) {
+            e.preventDefault();
+
+            var selectedGenre = $(this).val();
+
+            // Gọi action để lấy danh sách sách theo thể loại được chọn
+            $.ajax({
+                url: '@Url.Action("GetBooksByGenre", "Sach")',
+                type: 'GET',
+                data: { genre: selectedGenre },
+                success: function (result) {
+                    // Chỉ thay thế nội dung của #booksContainer, giữ nguyên phần head
+                    $('#booksContainer').html(result);
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText); // Kiểm tra thông báo lỗi
+                }
+            });
+            return false;
+        });
+
+        // ... (Các sự kiện và logic khác)
+    });
+</script>
