@@ -1,0 +1,92 @@
+﻿@model BookManagementWeb.Models.Entities.PhieuThuTien;
+<style>
+    input:focus {
+        outline-color: #3c91e6;
+    }
+</style>
+    <main>
+        <div class="table-data" style="height:350px;">
+            <div class="order">
+                <div class="head" style="display:flex; flex-direction:column;">
+
+                    <form asp-action="Create" method="post" asp-controller="PhieuThuTien" id="book-form" style="width: 80%; transform:translate(-100px, -50px);">
+                        <h3 style="margin:50px 0 20px 0;" >Thông tin khách hàng</h3>
+                        <div >
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="MaPhieuThuTien" class="control-label" style="display:none;"></label>
+                                <input asp-for="MaPhieuThuTien" class="form-control" type="number" style="display:none;" readonly />
+                                <span asp-validation-for="MaPhieuThuTien" class="text-danger" style="display: none;"></span>
+                            </div>
+                            <div style="display:flex; flex-direction:row; justify-content:space-between;">
+                                <label style="font-size: 18px; "><span style="color: #221f23;">Mã Hoá Đơn: </span>@ViewBag.MaHoaDon</label>
+
+                                <div class="form-group">
+                                    <label asp-for="NgayLapPhieuThuTien" style="font-size: 18px;" class="control-label">Ngày lập hoá đơn</label>
+                                    <input asp-for="NgayLapPhieuThuTien" class="form-control" type="date"  />
+                                    <span asp-validation-for="NgayLapPhieuThuTien" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div style="display:flex; flex-direction:column;">
+                                <label style=" font-size:18px; margin-bottom: 10px;"><span style="color: #221f23;">Mã Khách Hàng:</span>@ViewBag.MaKhachHang</label>
+                                <label style=" font-size: 18px; margin-bottom: 10px;"><span style="color: #221f23;">Tên khách hàng: </span>@ViewBag.TenKhachHang</label>
+                                <label style="  font-size: 18px; margin-bottom: 10px;"><span style="color: #221f23;">Số tiền nợ: </span>@ViewBag.TienNo</label>
+                                <label style=" font-size: 18px; margin-bottom: 10px;"><span style="color: #221f23;">Ngày Lập Hoá Đơn: </span>@ViewBag.NgayLapHoaDon</label>
+                                 <label style=" font-size: 18px; margin-bottom: 10px; "><span style="color: #221f23;">Tổng Giá Trị Hoá Đơn: </span>@ViewBag.TongGiaTriHoaDon VNĐ</label>
+                                 <div>
+                                     <label style="font-size: 18px; margin-bottom: 10px;" asp-for="TongSoTienThu" class="control-label"><span style="color: #221f23;">Tiền thu</span></label>
+                                     <input id="tien-nguoidung-nhap" style="border: 1px solid #3c91e6; border-radius: 3px;"
+                                            asp-for="TongSoTienThu" class="fomr-control" step="0.1" min="0" />
+                                     <span id="thong-bao-canh-bao" style="color: red;"></span>
+
+                                 </div>
+                                <p id="tongtien"></p>
+
+                             
+
+                            </div>
+
+
+                        </div>
+                      
+                        <button id="thanhtien-btn" style="font-weight:bold; transform: translate(1000px, -40px);" type="submit" class="btn btn-primary">Thành tiền</button>
+                    </form>
+
+            </div>
+        </div>
+            
+     
+        
+</main>
+
+
+
+<hr/>
+
+
+
+
+@section Scripts{
+    <script>
+        document.getElementById('tien-nguoidung-nhap').addEventListener('click', function () {
+            var tongSoTienThu = parseFloat(document.getElementById('TongSoTienThu').value);
+            var thongBao = document.getElementById('thong-bao-canh-bao');
+
+            if (tongSoTienThu < 0) {
+                thongBao.textContent = 'Vui lòng nhập số tiền không âm.';
+                event.preventDefault();
+            } else {
+                thongBao.textContent = '';
+            }
+        });
+        const tongTienText = document.getElementById("tongtien")
+
+        const tongGiaTriHoaDon = parseFloat("@ViewBag.TongGiaTriHoaDon");
+        const tienNo = parseFloat("@ViewBag.TienNo");
+
+        tongTienText.innerText = `Tổng tiền: ${tongTien.toFixed(2)}`;
+    </script>
+
+
+}

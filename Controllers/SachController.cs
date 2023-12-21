@@ -36,16 +36,11 @@ namespace BookManagementWeb.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    string uniqueFileName = GetProfilePhotoFileName(sach);
-                    sach.PhotoUrl = uniqueFileName;
-                    _context.SACH.Add(sach);
-                    _context.SaveChanges();
-                    return RedirectToAction(nameof(Index));
-                }
-                // If ModelState is not valid, return to the view with validation errors.
-                return View(sach);
+                string uniqueFileName = GetProfilePhotoFileName(sach);
+                sach.PhotoUrl = uniqueFileName;
+                _context.SACH.Add(sach);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));                               
             }
             catch (Exception ex)
             {
