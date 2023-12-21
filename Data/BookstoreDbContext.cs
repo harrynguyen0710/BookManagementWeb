@@ -60,8 +60,9 @@ namespace BookManagementWeb.Data
 
             modelBuilder.Entity<CTPhieuNhapSach>()
                 .HasOne(ct => ct.PhieuNhapSach)
-                .WithMany(pns => pns.CTPhieuNhapSachPN)
+                .WithMany(pns => pns.CTPhieuNhapSach)
                 .HasForeignKey(ct => ct.MaPhieuNhapSach);
+
         }
     }
 }
