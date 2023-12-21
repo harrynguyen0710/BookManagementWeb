@@ -57,10 +57,9 @@ namespace BookManagementWeb.Controllers
             {
                 string uniqueFileName = GetProfilePhotoFileName(sach);
                 sach.PhotoUrl = uniqueFileName;
-               
                 _context.SACH.Add(sach);
                 _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));  
             }
             catch (Exception ex)
             {

@@ -85,7 +85,9 @@
                             <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.SoLuongSach)</td>
                             <td style="transform:translateX(50px);">
                                 <a style="background-color:#ffd717; color: #ffffff; font-weight: bold; border-radius: 15px; width: 85px; height: 43px; cursor: pointer; border: none; cursor:pointer; margin-right:14px; display: inline-flex; align-items: center; justify-content: center;"
-                                   asp-action="Edit" asp-route-maSach="@item.MaSach"> Sửa</a>
+                                   asp-action="Edit" asp-route-maSach="@item.MaSach"> 
+                                    Sửa
+                                </a>
                                 <a asp-action="Delete"  asp-route-maSach="@item.MaSach" style="background-color: #c92127; color: #ffffff; font-weight: bold; border-radius: 15px; cursor:pointer; width: 65px; height: 43px; border: none; display: inline-flex; align-items: center; justify-content: center;">
                                     Xoá
                                 </a>
