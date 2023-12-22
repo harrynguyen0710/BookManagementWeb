@@ -12,8 +12,8 @@ namespace BookManagementWeb.Data
 
         public virtual DbSet<Sach> SACH { get; set; }
         public virtual DbSet<KhachHang> KHACHHANG { get; set; }
-        // public virtual DbSet<PhieuNhapSach> PHIEUNHAPSACH { get; set; }
-        // public virtual DbSet<CTPhieuNhapSach> CTPHIEUNHAPSACH { get; set; }
+        public virtual DbSet<PhieuNhapSach> PHIEUNHAPSACH { get; set; }
+        public virtual DbSet<CTPhieuNhapSach> CTPHIEUNHAPSACH { get; set; }
         public virtual DbSet<HoaDon> HOADONBANSACH { get; set; }
         public virtual DbSet<CTHoaDon> CTHOADONBANSACH { get; set; }
         public virtual DbSet<PhieuThuTien> PHIEUTHUTIEN { get; set; }
@@ -62,12 +62,9 @@ namespace BookManagementWeb.Data
 
             modelBuilder.Entity<CTPhieuNhapSach>()
                 .HasOne(ct => ct.PhieuNhapSach)
-                .WithMany(pns => pns.CTPhieuNhapSachPN)
+                .WithMany(pns => pns.CTPhieuNhapSach)
                 .HasForeignKey(ct => ct.MaPhieuNhapSach);
-<<<<<<< Updated upstream
-=======
-           */
->>>>>>> Stashed changes
+
         }
     }
 }

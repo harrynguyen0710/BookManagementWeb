@@ -1,4 +1,4 @@
-﻿using BookManagementWeb.Data;
+using BookManagementWeb.Data;
 using Microsoft.AspNetCore.Mvc;
 using BookManagementWeb.Models.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +11,7 @@ namespace BookManagementWeb.Controllers
 {
     public class KhachHangController : Controller
     {
+
         private readonly BookstoreDbContext _context;
 
         private readonly IWebHostEnvironment _webHost;
@@ -93,5 +94,6 @@ namespace BookManagementWeb.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         } */
+
     }
 }
