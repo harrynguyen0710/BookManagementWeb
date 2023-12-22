@@ -27,7 +27,7 @@ namespace BookManagementWeb.Models.Entities
         [NotMapped]
         public IFormFile ProfilePhoto { get; set; }
 
-        public List<Sach> SachList { get; set; }
+        //public List<Sach> SachList { get; set; }
 
         public virtual ICollection<CTHoaDon> CTHoaDonCollectionSach { get; set; } 
         public virtual ICollection<CTPhieuNhapSach> CTPhieuNhapSachCollectionSach { get; set; }
