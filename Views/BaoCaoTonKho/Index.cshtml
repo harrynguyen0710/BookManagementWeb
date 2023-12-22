@@ -1,0 +1,51 @@
+﻿@using System.Globalization
+
+@model IQueryable<(int MaSach, string TenSach, int SoLuongDauThang, int SoLuongCuoiThang)>
+
+@{
+    ViewData["Title"] = "Bao Cao Ton Kho";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="get" action="@Url.Action("Index", "BaoCaoTonKho")">
+    <label for="selectedMonth">Select Month:</label>
+    <select id="selectedMonth" name="selectedMonth">
+        @for (int i = 1; i <= 12; i++)
+        {
+            <option value="@i">@CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i)</option>
+        }
+    </select>
+
+    <label for="selectedYear">Select Year:</label>
+    <select id="selectedYear" name="selectedYear">
+        @for (int i = DateTime.Now.Year; i >= 2000; i--)
+        {
+            <option value="@i">@i</option>
+        }
+    </select>
+
+    <button type="submit">Submit</button>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mã Sách</th>
+            <th>Tên Sách</th>
+            <th>Số Lượng Đầu Tháng</th>
+            <th>Số Lượng Cuối Tháng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MaSach</td>
+                <td>@item.TenSach</td>
+                <td>@item.SoLuongDauThang</td>
+                <td>@item.SoLuongCuoiThang</td>
+            </tr>
+        }
+    </tbody>
+</table>
