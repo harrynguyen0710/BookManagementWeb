@@ -1,4 +1,7 @@
-﻿@model IEnumerable<BookManagementWeb.Models.Entities.KhachHang>
+﻿@model IPagedList<BookManagementWeb.Models.Entities.KhachHang>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc;
+@using X.PagedList;
 
 <main>
     <h1>Danh sách thông tin khách hàng</h1>
@@ -82,6 +85,49 @@
         </div>
 
     </div>
+    <div class="container">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>
+    <style>
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px; /* Điều chỉnh khoảng cách từ bảng sách đến phân trang */
+        }
 
+        .pagination {
+            display: flex;
+            list-style: none;
+            padding: 0;
+        }
+
+            .pagination li {
+                margin: 0 10px;
+            }
+
+            .pagination a {
+                color: black;
+                text-decoration: none;
+                transition: background-color .3s;
+                border: 1px solid #ddd;
+                padding: 8px 16px;
+                display: inline-block;
+            }
+
+            .pagination span {
+                color: white;
+                text-decoration: none;
+                transition: background-color .3s;
+                border: 1px solid #4CAF50;
+                background-color: #4CAF50;
+                padding: 8px 16px;
+                display: inline-block;
+            }
+
+            .pagination a:hover:not(.active) {
+                background-color: #ddd;
+            }
+    </style>
 
 </main>
