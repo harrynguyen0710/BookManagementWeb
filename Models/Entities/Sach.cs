@@ -29,7 +29,7 @@ namespace BookManagementWeb.Models.Entities
 
 
         public virtual ICollection<CTHoaDon> CTHoaDonCollectionSach { get; set; } 
-        public virtual ICollection<CTPhieuNhapSach> CTPhieuNhapSachCollectionSach { get; set; }
+       // public virtual ICollection<CTPhieuNhapSach> CTPhieuNhapSachCollectionSach { get; set; }
 
     }
 }
