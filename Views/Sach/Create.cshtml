@@ -51,8 +51,8 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div style="transform:translateY(-45px);">
                             <div class="form-group" style="width: 80%;">
-                                <label asp-for="MaSach" class="control-label" style="font-size:18px; margin-bottom:5px; font-weight:bold;">Mã sách</label>
-                                <input type="number" asp-for="MaSach" class="form-control input-lg" style="height:40px; font-size: 17px;" />
+                                @* <label type="hidden" asp-for="MaSach" class="control-label" style="font-size:18px; margin-bottom:5px; font-weight:bold;">Mã sách</label> *@
+                                <input type="hidden" asp-for="MaSach" class="form-control input-lg" style="height:40px; font-size: 17px;" />
                                 <span asp-validation-for="MaSach" class="text-danger"></span>
                             </div>
 
@@ -75,8 +75,8 @@
                             </div>
 
                             <div class="form-group" style="width: 80%;">
-                                <label asp-for="SoLuongSach" class="control-label"  style="font-size:18px; margin-bottom:5px; font-weight:bold;">Số lượng sách</label>
-                                <input asp-for="SoLuongSach" class="form-control input-lg" style="height:40px; font-size: 17px;" />
+                                <label type="hidden" asp-for="SoLuongSach" class="control-label" style="font-size:18px; margin-bottom:5px; font-weight:bold;">Số lượng sách</label>
+                                <input type="text" asp-for="SoLuongSach" class="form-control input-lg" style="height:40px; font-size: 17px;" />
                                 <span asp-validation-for="SoLuongSach" class="text-danger"></span>
                             </div>
 
@@ -126,4 +126,3 @@
         });
     </script>
 }
-

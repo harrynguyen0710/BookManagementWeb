@@ -32,6 +32,7 @@ namespace BookManagementWeb.Controllers
         {
             ViewBag.MaSachList = new SelectList(_context.SACH, "MaSach", "TenSach");
             var phieuNhapViewModel = new PhieuNhapViewModel();
+            phieuNhapViewModel.NgayLapPhieuNhap = DateTime.Now.Date;
             return View(phieuNhapViewModel);
         }
 

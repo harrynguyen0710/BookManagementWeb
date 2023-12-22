@@ -48,6 +48,7 @@ namespace BookManagementWeb.Controllers
             ViewBag.MaKhachHangList = new SelectList(_context.KHACHHANG, "MaKhachHang", "HoVaTen");
 
             var hoaDonViewModel = new HoaDonViewModel();
+            hoaDonViewModel.NgayLapHoaDon = DateTime.Now.Date;
             return View(hoaDonViewModel);
         }
 
