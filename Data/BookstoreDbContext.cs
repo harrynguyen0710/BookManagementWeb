@@ -17,6 +17,7 @@ namespace BookManagementWeb.Data
         public virtual DbSet<HoaDon> HOADONBANSACH { get; set; }
         public virtual DbSet<CTHoaDon> CTHOADONBANSACH { get; set; }
         public virtual DbSet<PhieuThuTien> PHIEUTHUTIEN { get; set; }
+        public virtual DbSet<ThayDoiQuyDinh> THAYDOIQUYDINH { get; set; }
 
 
 
@@ -52,7 +53,7 @@ namespace BookManagementWeb.Data
                 .WithMany(b => b.CTHoaDonCollectionSach)
                 .HasForeignKey(id => id.MaSach);
 
-            modelBuilder.Entity<CTPhieuNhapSach>()
+           /* modelBuilder.Entity<CTPhieuNhapSach>()
                 .HasKey(ct => new { ct.MaPhieuNhapSach, ct.MaSach });
 
             modelBuilder.Entity<CTPhieuNhapSach>()
@@ -62,8 +63,9 @@ namespace BookManagementWeb.Data
 
             modelBuilder.Entity<CTPhieuNhapSach>()
                 .HasOne(ct => ct.PhieuNhapSach)
-                .WithMany(pns => pns.CTPhieuNhapSachPN)
+                .WithMany(pns => pns.CTPhieuNhapSach)
                 .HasForeignKey(ct => ct.MaPhieuNhapSach);
+
         }
     }
 }

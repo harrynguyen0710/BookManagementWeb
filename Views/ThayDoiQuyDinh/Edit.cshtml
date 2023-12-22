@@ -1,0 +1,15 @@
+﻿@* @model BookManagementWeb.Models.Entities.ThayDoiQuyDinh
+
+<h2>Chỉnh Sửa Quy Định Thay Đổi</h2>
+
+<form asp-action="Edit" asp-route-id="@Model.LanThayDoi">
+    <div class="form-group">
+        <label asp-for="MinNhap"></label>
+        <input asp-for="MinNhap" class="form-control" />
+        <span asp-validation-for="MinNhap" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Lưu" class="btn btn-primary" />
+    </div>
+</form> *@

@@ -1,0 +1,104 @@
+@model IPagedList<BookManagementWeb.ViewModel.CTHoaDonViewModel>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc;
+@using X.PagedList;
+
+<main>
+    <h2>Hóa Đơn</h2>
+    <div class="table-data" style="height: 200px; margin-top: -5px;">
+        <div class="order">
+            <div>
+                <div><span>Mã hoá đơn </span>@Model[0].MaHoaDon</div>
+                <div><span>Ngày lập: </span> @Model[0].NgayLapHoaDon</div>
+                <div><span>Mã khách hàng: </span>@Model[0].MaKhachHang</div>
+                <div><span>Khách hàng: </span>@Model[0].TenKhachHang</div>
+                <div><span>Số nợ: </span>@Model[0].SoTienKhachNo</div>
+                <div><span>Tiền thu: </span>@Model[0].TongSoTienThu</div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="table-data" style="height:400px;">
+        <div class="order" style="margin-top:10px;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tên Sách</th>
+                        <th>Mã Sách</th>
+                        <th>Thể loại</th>
+                        <th>Tác giả</th>
+                        <th>Số lượng bán</th>
+                        <th>Đơn giá bán</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ctHD in Model)
+                    {
+                        <tr>
+                            <td>@ctHD.TenSach</td>
+                            <td>@ctHD.MaSach</td>
+                            <td>@ctHD.TheLoai</td>
+                            <td>@ctHD.TacGia</td>
+                            <td>@ctHD.SoLuongBan</td>
+                            <td>@ctHD.DonGiaBan</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <a style="font-weight:bold; transform:translate(5px,20px); " asp-action="Index" asp-controller="HoaDon">Quay lại</a>
+    <div class="container">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>
+    <style>
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px; /* Điều chỉnh khoảng cách từ bảng sách đến phân trang */
+        }
+
+        .pagination {
+            display: flex;
+            list-style: none;
+            padding: 0;
+        }
+
+            .pagination li {
+                margin: 0 10px;
+            }
+
+            .pagination a {
+                color: black;
+                text-decoration: none;
+                transition: background-color .3s;
+                border: 1px solid #ddd;
+                padding: 8px 16px;
+                display: inline-block;
+            }
+
+            .pagination span {
+                color: white;
+                text-decoration: none;
+                transition: background-color .3s;
+                border: 1px solid #4CAF50;
+                background-color: #4CAF50;
+                padding: 8px 16px;
+                display: inline-block;
+            }
+
+            .pagination a:hover:not(.active) {
+                background-color: #ddd;
+            }
+    </style>
+
+</main>
+
+
+
+

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<BookManagementWeb.Models.Entities.ThayDoiQuyDinh>
+
+<h2>Quy Định Thay Đổi</h2>
+
+<p>
+    <a asp-action="Create">Tạo Mới</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Lần Thay Đổi</th>
+            <th>Số lượng nhập tối thiểu</th>
+            <th>Số lượng tồn tối thiểu sau khi bán</th>
+            <th>Số lương tồn tối thiểu trước khi nhập</th>
+            <th>Số nợ tối đa</th>
+            <th>Áp dụng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.LanThayDoi)</td>
+                <td>@Html.DisplayFor(modelItem => item.MinNhap)</td>
+                <td>@Html.DisplayFor(modelItem => item.MinTonSauBan)</td>
+                <td>@Html.DisplayFor(modelItem => item.MinTonTruocNhap)</td>
+                <td>@Html.DisplayFor(modelItem => item.MaxNo)</td>
+                <td>
+                    <input type="checkbox" @(item.ApDung ? "checked" : "") id="checkbox_@item.LanThayDoi" onchange="updateApDung(@item.LanThayDoi, this.checked)" />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function updateApDung(lanThayDoi, newApDungValue) {
+        const checkboxes = document.querySelectorAll(`input[id^="checkbox_${lanThayDoi}"]`);
+
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked && checkbox !== event.target) {
+                checkbox.checked = false;
+                updateApDung(lanThayDoi, false);
+            }
+        });
+
+        updateApDung(lanThayDoi, newApDungValue);
+    }
+
+    function updateApDung(lanThayDoi, newApDungValue) {
+        fetch(`/ThayDoiQuyDinh/UpdateApDung?lanThayDoi=${lanThayDoi}&newApDungValue=${newApDungValue}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    console.error('Error updating ApDung.');
+                }
+            });
+    }
+</script>

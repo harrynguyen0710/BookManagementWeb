@@ -2,12 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using BookManagementWeb.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http.Headers;
+using X.PagedList.Mvc.Core;
+using X.PagedList.Mvc;
+using X.PagedList;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Diagnostics.Eventing.Reader;
+
 
 namespace BookManagementWeb.Controllers
 {
@@ -22,16 +27,20 @@ namespace BookManagementWeb.Controllers
             _webHost = webHost;
         }
 
-        public IActionResult Index(string SearchString)
+        public IActionResult Index(int? page, int? pageSize, string SearchString)
         {
-            List<Sach> sachList = new List<Sach>();
-            sachList = _context.SACH.ToList();
+            page = page ?? 1;
+            pageSize = pageSize ?? 5;
+            var book = _context.SACH.AsQueryable();
+
             if (!string.IsNullOrEmpty(SearchString))
             {
-                sachList = sachList.Where(x => x.TenSach.Contains(SearchString)).ToList();
+                book = book.Where(x => x.TenSach.Contains(SearchString));
             }
-            return View(sachList);
+
+            return View(book.ToList().ToPagedList(page.Value, pageSize.Value));
         }
+
 
         [HttpGet]
         public IActionResult Create()
@@ -48,10 +57,9 @@ namespace BookManagementWeb.Controllers
             {
                 string uniqueFileName = GetProfilePhotoFileName(sach);
                 sach.PhotoUrl = uniqueFileName;
-               
                 _context.SACH.Add(sach);
                 _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));  
             }
             catch (Exception ex)
             {

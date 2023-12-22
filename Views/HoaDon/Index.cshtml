@@ -1,0 +1,133 @@
+﻿@{ 
+    Layout = "_Layout";
+}
+
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc;
+@using X.PagedList;
+@model IPagedList<BookManagementWeb.ViewModel.KhachHangViewModel>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<main>
+    <h1>Danh sách Hoá Đơn</h1>
+    <ul class="box-info">
+        <li>
+            <span class="text">
+                <h3>15,852,341</h3>
+                <p>Tổng doanh thu</p>
+            </span>
+            <i class="fa-solid fa-dollar-sign" style="color: #17b51a; transform:translate(27px,-10px); font-size: 50px;"></i>
+
+        </li>
+        <li>
+            <span class="text">
+                <h3>15</h3>
+                <p>Tổng đơn hàng mới</p>
+            </span>
+            <i class="fa-solid fa-file" style="color: #cb9c1a; transform: translate(17px,-10px); font-size: 50px; "></i>
+        </li>
+        <li>
+            <span class="text">
+                <h3>50</h3>
+                <p>Tổng sách đã bán</p>
+            </span>
+            <i class="fa-solid fa-book" style="color: #513f1f; transform: translate(17px,-10px); font-size: 50px; "></i>
+        </li>
+        <li>
+            <span class="text">
+                <h3>10</h3>
+                <p>Tổng khách hàng</p>
+            </span>
+            <i class="fa-solid fa-cart-shopping" style="color: #cb5e15; transform: translate(17px,-10px); font-size: 50px; "></i>
+        </li>
+    </ul>
+
+
+    <div class="table-data" style="height: 600px;">
+        <div class="order">
+            <div class="head">
+                <h3>Danh sách Hoá Đơn</h3>
+                <a asp-action="Create" asp-controller="HoaDon">
+                    <i class='bx bx-plus' style="font-size:30px; color:green; font-weight: bold;"></i>
+                </a>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="font-size:18px;">Mã Hoá Đơn</th>
+                        <th style="font-size:18px;">Khách Hàng</th>
+                        <th style="font-size:18px;">Tên khách hàng</th>
+                        <th style="font-size:18px;">Ngày Lập Hoá Đơn</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var hoaDon in Model)
+                    {
+                        <tr>
+                            <td>@hoaDon.MaHoaDon</td>
+                            <td>@hoaDon.MaKhachHang</td>
+                            <td>@hoaDon.TenKhachHang</td>
+                            <td>@hoaDon.NgayLapHoaDon.ToShortDateString()</td>
+                            <td>
+                                <a asp-action="Details" asp-route-MaHoaDon="@hoaDon.MaHoaDon" asp-controller="CTHoaDon"
+                                   style="font-size:15px; background-color:#3c91e6; color: #ffffff; font-weight: bold; border-radius: 15px; width: 85px; height: 43px; cursor: pointer; border: none; cursor:pointer; margin-right:14px; display: inline-flex; align-items: center; justify-content: center;">
+                                    Chi tiết
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+    <div class="container">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>
+    <style>
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px; /* Điều chỉnh khoảng cách từ bảng sách đến phân trang */
+        }
+
+        .pagination {
+            display: flex;
+            list-style: none;
+            padding: 0;
+        }
+
+            .pagination li {
+                margin: 0 10px;
+            }
+
+            .pagination a {
+                color: black;
+                text-decoration: none;
+                transition: background-color .3s;
+                border: 1px solid #ddd;
+                padding: 8px 16px;
+                display: inline-block;
+            }
+
+            .pagination span {
+                color: white;
+                text-decoration: none;
+                transition: background-color .3s;
+                border: 1px solid #4CAF50;
+                background-color: #4CAF50;
+                padding: 8px 16px;
+                display: inline-block;
+            }
+
+            .pagination a:hover:not(.active) {
+                background-color: #ddd;
+            }
+    </style>
+
+</main>
