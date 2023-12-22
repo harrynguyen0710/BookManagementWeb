@@ -4,6 +4,8 @@ namespace BookManagementWeb.Data
 {
     public class BookstoreDbContext : DbContext
     {
+        internal object TheLoai;
+
         public BookstoreDbContext() { }
         public BookstoreDbContext(DbContextOptions<BookstoreDbContext> options)
             : base(options) { }
@@ -51,7 +53,7 @@ namespace BookManagementWeb.Data
                 .WithMany(b => b.CTHoaDonCollectionSach)
                 .HasForeignKey(id => id.MaSach);
 
-            modelBuilder.Entity<CTPhieuNhapSach>()
+           /* modelBuilder.Entity<CTPhieuNhapSach>()
                 .HasKey(ct => new { ct.MaPhieuNhapSach, ct.MaSach });
 
             modelBuilder.Entity<CTPhieuNhapSach>()
@@ -61,8 +63,9 @@ namespace BookManagementWeb.Data
 
             modelBuilder.Entity<CTPhieuNhapSach>()
                 .HasOne(ct => ct.PhieuNhapSach)
-                .WithMany(pns => pns.CTPhieuNhapSachPN)
+                .WithMany(pns => pns.CTPhieuNhapSach)
                 .HasForeignKey(ct => ct.MaPhieuNhapSach);
+
         }
     }
 }

@@ -9,7 +9,10 @@ namespace BookManagementWeb.ViewModel
 
         public int MaKhachHang { get; set; }
         public int MaSach { get; set; }
+
+       
         public int SoLuongBan { get; set; }
+
         public decimal DonGiaBan { get; set; }
         public List<HoaDonViewModel> HDSachList { get; set; }
 

@@ -5,7 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-
+using System.Net.Http.Headers;
+using X.PagedList.Mvc.Core;
+using X.PagedList.Mvc;
+using X.PagedList;
 
 namespace BookManagementWeb.Controllers
 {
@@ -17,9 +20,12 @@ namespace BookManagementWeb.Controllers
         {
             _context = context;
         }
-        
-        public IActionResult Index()
+
+        public IActionResult Index(int? page)
         {
+            var pageNumber = page ?? 1; 
+            var pageSize = 5; 
+
             var hoaDonList = _context.HOADONBANSACH
                 .Select(hd => new KhachHangViewModel
                 {
@@ -31,7 +37,7 @@ namespace BookManagementWeb.Controllers
                         .Select(kh => kh.HoVaTen)
                         .FirstOrDefault()
                 })
-                .ToList();
+                .ToPagedList(pageNumber, pageSize);
 
             return View(hoaDonList);
         }

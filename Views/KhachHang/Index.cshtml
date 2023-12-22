@@ -1,20 +1,17 @@
-
-@model IPagedList<BookManagementWeb.Models.Entities.Sach>
+﻿@model IPagedList<BookManagementWeb.Models.Entities.KhachHang>
 @using X.PagedList.Mvc.Core;
 @using X.PagedList.Mvc;
 @using X.PagedList;
 
-
 <main>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh sách thông tin sách</title>
-    <ul class="box-info">   
+    <h1>Danh sách thông tin khách hàng</h1>
+
+    <ul class="box-info">
         <li>
             <img src="~/images/Cambridge-Grammar-for-IELTS.png" style="width=100px; height:150px;" />
             <span class="text">
-                <h3>1020</h3>
-                <p>Sách bán chạy nhất tháng 12</p>
+                <h3>Dương Nhật Khoa</h3>
+                <p>Khách hàng mới</p>
             </span>
 
 
@@ -22,15 +19,15 @@
         <li>
             <img src="~/images/Cambridge-Grammar-for-IELTS.png" style="width=100px; height:150px;" />
             <span class="text">
-                <h3>2834</h3>
-                <p>Sách mang lại nhiều doanh thu nhất</p>
+                <h3>Nguyễn Ngọc Phú</h3>
+                <p>Khách hàng mua nhiều nhất</p>
             </span>
         </li>
         <li>
             <img src="~/images/Cambridge-Grammar-for-IELTS.png" style="width=100px; height:150px;" />
             <span class="text">
-                <h3>$2543</h3>
-                <p>Tổng số sách mới</p>
+                <h3>Đỗ Mạnh Hùng</h3>
+                <p>Khách hàng nợ nhiều nhất</p>
             </span>
         </li>
     </ul>
@@ -38,35 +35,24 @@
     <div class="table-data" style="height:600px;">
         <div class="order">
             <div class="head">
-                <h3>Sách</h3>
-                <a asp-action="GetGenres">
-                    <i class='bx bx-filter' style="font-size:30px;"></i>
-
-                </a>
-                <a asp-action="Create">
+                <h3>Khách Hàng</h3>
+                <a asp-action="Create" asp-controller="KhachHang">
                     <i class='bx bx-plus' style="font-size:30px; color:green; font-weight: bold;"></i>
                 </a>
-                @using (Html.BeginForm("Index", "Sach", FormMethod.Post))
-                {
-                    <p>
-                        Tìm tên sách: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-                        <input type="submit" value="Tìm kiếm" />
-                    </p>
-                }
-                <div id="genresContainer"></div>
-                <div id="booksContainerWrapper">
-                <div id="booksContainer"></div>
-                </div>
-               
+                <i class='bx bx-filter' style="font-size:30px;"></i>
             </div>
             <table>
                 <thead>
                     <tr>
-                        <th>Tên sách</th>
-                        <th>Mã sách</th>
-                        <th>Thể loại</th>
-                        <th>Tác giả</th>
-                        <th>Số lượng</th>
+
+                        <th>Mã khách</th>
+                        <th>Họ và tên</th>
+                        <th>Giới tính</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
+                        <th>Địa chỉ</th>
+                        <th>Số tiền nợ</th>
+
                         <th></th>
                     </tr>
                 </thead>
@@ -75,32 +61,29 @@
                     {
                         <tr>
                             <td>
-                                <img src="~/images/@item.PhotoUrl" />
-
-                                <p style="cursor:pointer; font-size:18px;">@Html.DisplayFor(modelItem => item.TenSach)</p>
+                                <p style="cursor:pointer; font-size:18px;">@Html.DisplayFor(modelItem => item.MaKhachHang)</p>
                             </td>
-                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.MaSach)</td>
-                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.TheLoai)</td>
-                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.TacGia)</td>
-                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.SoLuongSach)</td>
+
+                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.MaKhachHang)</td>
+                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.HoVaTen)</td>
+                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.GioiTinh)</td>
+                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.Email)</td>
+                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.SDT)</td>
+                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.DiaChi)</td>
+                            <td style="font-size:18px;">@Html.DisplayFor(modelItem => item.SoTienNo)</td>
                             <td style="transform:translateX(50px);">
                                 <a style="background-color:#ffd717; color: #ffffff; font-weight: bold; border-radius: 15px; width: 85px; height: 43px; cursor: pointer; border: none; cursor:pointer; margin-right:14px; display: inline-flex; align-items: center; justify-content: center;"
-                                   asp-action="Edit" asp-route-maSach="@item.MaSach"> 
-                                    Sửa
-                                </a>
-                                <a asp-action="Delete"  asp-route-maSach="@item.MaSach" style="background-color: #c92127; color: #ffffff; font-weight: bold; border-radius: 15px; cursor:pointer; width: 65px; height: 43px; border: none; display: inline-flex; align-items: center; justify-content: center;">
+                                   asp-action="Edit" asp-route-maSach="@item.MaKhachHang"> Sửa</a>
+                                <a asp-action="Delete" asp-route-maSach="@item.MaKhachHang" style="background-color: #c92127; color: #ffffff; font-weight: bold; border-radius: 15px; cursor:pointer; width: 65px; height: 43px; border: none; display: inline-flex; align-items: center; justify-content: center;">
                                     Xoá
                                 </a>
                             </td>
                         </tr>
-
                     }
                 </tbody>
             </table>
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-            <script>
-            </script>
         </div>
+
     </div>
     <div class="container">
         @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

@@ -15,11 +15,16 @@ namespace BookManagementWeb.Models.Entities
 
         [Column(TypeName = "nvarchar(100)")]
         public string Email { get; set; }
+
+        [Column(TypeName = "bit")]
         public bool GioiTinh { get; set; }
+
         [Column(TypeName = "nvarchar(15)")]
         public string SDT { get; set; }
+
         [Column(TypeName = "nvarchar(100)")]
         public string DiaChi { get; set; }
+
         public decimal SoTienNo { get; set; }
 
         public virtual ICollection<HoaDon> HoaDonCollectionKH {  get; set; }

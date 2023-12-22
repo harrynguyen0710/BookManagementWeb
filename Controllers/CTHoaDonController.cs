@@ -2,19 +2,26 @@
 using BookManagementWeb.Models.Entities;
 using BookManagementWeb.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using X.PagedList.Mvc.Core;
+using X.PagedList.Mvc;
+using X.PagedList;
+
 
 namespace BookManagementWeb.Controllers
 {
     public class CTHoaDonController : Controller
     {
         private readonly BookstoreDbContext _context;
-        public CTHoaDonController (BookstoreDbContext context)
+        public CTHoaDonController(BookstoreDbContext context)
         {
             _context = context;
         }
 
-        public IActionResult Details(int maHoaDon)
+        public IActionResult Details(int maHoaDon, int? page)
         {
+            var pageNumber = page ?? 1; // nếu không có trang nào được chỉ định thì mặc định là trang 1
+            var pageSize = 5; // số lượng chi tiết hóa đơn trên mỗi trang
+
             List<int> ttMaSach = new List<int>();
             List<Sach> sachList = new List<Sach>();
             List<CTHoaDonViewModel> ctHDList = new List<CTHoaDonViewModel>();
@@ -28,13 +35,13 @@ namespace BookManagementWeb.Controllers
                 .FirstOrDefault();
             string tenKhachHang = _context.KHACHHANG.Where(x => x.MaKhachHang == maKhachHang).Select(x => x.HoVaTen).FirstOrDefault();
 
-            foreach(var i in CTHDList)
+            foreach (var i in CTHDList)
             {
                 ttMaSach.Add(i.MaSach);
             }
 
             int j = 0;
-            foreach(var i in CTHDList)
+            foreach (var i in CTHDList)
             {
                 CTHoaDonViewModel ctHD = new CTHoaDonViewModel();
                 ctHD.MaHoaDon = hoaDon.MaHoaDon;
@@ -49,13 +56,15 @@ namespace BookManagementWeb.Controllers
                 ctHD.TenSach = _context.SACH.Where(x => x.MaSach == ctHD.MaSach).Select(x => x.TenSach).FirstOrDefault();
                 ctHD.TacGia = _context.SACH.Where(x => x.MaSach == ctHD.MaSach).Select(x => x.TacGia).FirstOrDefault();
                 ctHD.TheLoai = _context.SACH.Where(x => x.MaSach == ctHD.MaSach).Select(x => x.TheLoai).FirstOrDefault();
-                
+
                 ctHDList.Add(ctHD);
                 j += 1;
             }
 
+            //return View(ctHDList);
 
-            return View(ctHDList);
+            return View(ctHDList.ToPagedList(pageNumber, pageSize));
+
         }
     }
 }
