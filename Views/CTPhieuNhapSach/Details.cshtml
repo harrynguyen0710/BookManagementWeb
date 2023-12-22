@@ -17,8 +17,6 @@
                 }
                
 
-
-
             </div>
 
         </div>
@@ -28,6 +26,7 @@
             <table>
                 <thead>
                     <tr>
+                        <th>STT</th>
                         <th>Tên Sách</th>
                         <th>Mã Sách</th>
                         <th>Thể loại</th>
@@ -37,17 +36,22 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var ctPN in Model)
-                    {
-                        <tr>
-                            <td>@ctPN.TenSach</td>
-                            <td>@ctPN.MaSach</td>
-                            <td>@ctPN.TheLoai</td>
-                            <td>@ctPN.TacGia</td>
-                            <td>@ctPN.SoLuongNhap</td>
-                            <td>@ctPN.DonGiaNhap</td>
+                    @{ 
+                        int i = 1;
+                        @foreach (var ctPN in Model)
+                        {
+                            <tr>
+                                <td>@i</td>
+                                <td>@ctPN.TenSach</td>
+                                <td>@ctPN.MaSach</td>
+                                <td>@ctPN.TheLoai</td>
+                                <td>@ctPN.TacGia</td>
+                                <td>@ctPN.SoLuongNhap</td>
+                                <td>@ctPN.DonGiaNhap</td>
 
-                        </tr>
+                            </tr>
+                            i++;
+                        }
                     }
                 </tbody>
             </table>
