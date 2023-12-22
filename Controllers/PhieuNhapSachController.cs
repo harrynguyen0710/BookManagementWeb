@@ -1,4 +1,4 @@
-﻿/* using BookManagementWeb.Data;
+﻿using BookManagementWeb.Data;
 using BookManagementWeb.Models.Entities;
 using BookManagementWeb.ViewModel;
 using Humanizer;
@@ -15,7 +15,7 @@ namespace BookManagementWeb.Controllers
     public class PhieuNhapSachController : Controller
     {
         private readonly BookstoreDbContext _context;
-        
+
         public PhieuNhapSachController(BookstoreDbContext context)
         {
             _context = context;
@@ -28,7 +28,7 @@ namespace BookManagementWeb.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create() 
+        public IActionResult Create()
         {
             ViewBag.MaSachList = new SelectList(_context.SACH, "MaSach", "TenSach");
             var phieuNhapViewModel = new PhieuNhapViewModel();
@@ -39,17 +39,17 @@ namespace BookManagementWeb.Controllers
         public IActionResult Create(PhieuNhapViewModel pnVM, string PNSachList)
         {
             pnVM.phieuNhapViewModelList = JsonConvert.DeserializeObject<List<PhieuNhapViewModel>>(PNSachList);
-         
-            
+
+
             var phanTuCuoi = pnVM.phieuNhapViewModelList.Count - 1;
             PhieuNhapSach phieuNhapSach = new PhieuNhapSach();
             phieuNhapSach.MaPhieuNhapSach = pnVM.phieuNhapViewModelList[0].MaPhieuNhapSach;
             phieuNhapSach.NgayLapPhieuNhap = pnVM.phieuNhapViewModelList[phanTuCuoi].NgayLapPhieuNhap;
-           
+
             _context.PHIEUNHAPSACH.Add(phieuNhapSach);
             _context.SaveChanges();
 
-            foreach(var sachNhap in pnVM.phieuNhapViewModelList)
+            foreach (var sachNhap in pnVM.phieuNhapViewModelList)
             {
                 CTPhieuNhapSach ctPhieuNhapSach = new CTPhieuNhapSach();
 
@@ -82,4 +82,3 @@ namespace BookManagementWeb.Controllers
 
     }
 }
-*/

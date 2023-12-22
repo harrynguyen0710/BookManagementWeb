@@ -28,8 +28,8 @@ namespace BookManagementWeb.Models.Entities
         public IFormFile ProfilePhoto { get; set; }
 
 
-        public virtual ICollection<CTHoaDon> CTHoaDonCollectionSach { get; set; } 
-       // public virtual ICollection<CTPhieuNhapSach> CTPhieuNhapSachCollectionSach { get; set; }
+        public virtual ICollection<CTHoaDon> CTHoaDonCollectionSach { get; set; }
+        public virtual ICollection<CTPhieuNhapSach> CTPhieuNhapSachCollectionSach { get; set; }
 
     }
 }

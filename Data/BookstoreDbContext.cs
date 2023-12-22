@@ -53,7 +53,7 @@ namespace BookManagementWeb.Data
                 .WithMany(b => b.CTHoaDonCollectionSach)
                 .HasForeignKey(id => id.MaSach);
 
-           /* modelBuilder.Entity<CTPhieuNhapSach>()
+            modelBuilder.Entity<CTPhieuNhapSach>()
                 .HasKey(ct => new { ct.MaPhieuNhapSach, ct.MaSach });
 
             modelBuilder.Entity<CTPhieuNhapSach>()
