@@ -4,6 +4,7 @@ using BookManagementWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookManagementWeb.Migrations
 {
     [DbContext(typeof(BookstoreDbContext))]
-    partial class BookstoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231221114906_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -175,6 +177,9 @@ namespace BookManagementWeb.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("SachMaSach")
+                        .HasColumnType("int");
+
                     b.Property<int>("SoLuongSach")
                         .HasColumnType("int");
 
@@ -192,35 +197,9 @@ namespace BookManagementWeb.Migrations
 
                     b.HasKey("MaSach");
 
+                    b.HasIndex("SachMaSach");
+
                     b.ToTable("SACH");
-                });
-
-            modelBuilder.Entity("BookManagementWeb.Models.Entities.ThayDoiQuyDinh", b =>
-                {
-                    b.Property<int>("LanThayDoi")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LanThayDoi"), 1L, 1);
-
-                    b.Property<bool>("ApDung")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal>("MaxNo")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("MinNhap")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MinTonSauBan")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MinTonTruocNhap")
-                        .HasColumnType("int");
-
-                    b.HasKey("LanThayDoi");
-
-                    b.ToTable("THAYDOIQUYDINH");
                 });
 
             modelBuilder.Entity("BookManagementWeb.Models.Entities.CTHoaDon", b =>
@@ -283,6 +262,13 @@ namespace BookManagementWeb.Migrations
                     b.Navigation("HoaDon");
                 });
 
+            modelBuilder.Entity("BookManagementWeb.Models.Entities.Sach", b =>
+                {
+                    b.HasOne("BookManagementWeb.Models.Entities.Sach", null)
+                        .WithMany("SachList")
+                        .HasForeignKey("SachMaSach");
+                });
+
             modelBuilder.Entity("BookManagementWeb.Models.Entities.HoaDon", b =>
                 {
                     b.Navigation("CTHoaDonCollectionHD");
@@ -305,6 +291,8 @@ namespace BookManagementWeb.Migrations
                     b.Navigation("CTHoaDonCollectionSach");
 
                     b.Navigation("CTPhieuNhapSachCollectionSach");
+
+                    b.Navigation("SachList");
                 });
 #pragma warning restore 612, 618
         }

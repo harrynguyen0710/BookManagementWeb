@@ -1,4 +1,4 @@
-﻿@model IPagedList<BookManagementWeb.ViewModel.CTHoaDonViewModel>
+@model IPagedList<BookManagementWeb.ViewModel.CTHoaDonViewModel>
 @using X.PagedList.Mvc.Core;
 @using X.PagedList.Mvc;
 @using X.PagedList;
@@ -14,6 +14,7 @@
                 <div><span>Khách hàng: </span>@Model[0].TenKhachHang</div>
                 <div><span>Số nợ: </span>@Model[0].SoTienKhachNo</div>
                 <div><span>Tiền thu: </span>@Model[0].TongSoTienThu</div>
+
             </div>
 
         </div>
@@ -49,6 +50,7 @@
         </div>
 
     </div>
+
     <a style="font-weight:bold; transform:translate(5px,20px); " asp-action="Index" asp-controller="HoaDon">Quay lại</a>
     <div class="container">
         @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
@@ -94,6 +96,7 @@
                 background-color: #ddd;
             }
     </style>
+
 </main>
 
 

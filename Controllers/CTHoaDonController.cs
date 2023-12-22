@@ -61,7 +61,10 @@ namespace BookManagementWeb.Controllers
                 j += 1;
             }
 
+            //return View(ctHDList);
+
             return View(ctHDList.ToPagedList(pageNumber, pageSize));
+
         }
     }
 }

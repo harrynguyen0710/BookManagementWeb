@@ -1,0 +1,33 @@
+﻿@model BookManagementWeb.Models.Entities.ThayDoiQuyDinh
+
+<h2>Tạo Mới Quy Định</h2>
+
+<form asp-action="Create" class="my-form">
+    <div class="form-group">
+        <label asp-for="MinNhap" class="control-label">Số lượng nhập tối thiểu</label>
+        <input asp-for="MinNhap" class="form-control" />
+        <span asp-validation-for="MinNhap" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MinTonSauBan" class="control-label">Số lượng tồn tối thiểu sau khi bán</label>
+        <input asp-for="MinTonSauBan" class="form-control" />
+        <span asp-validation-for="MinTonSauBan" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MinTonTruocNhap" class="control-label">Số lương tồn tối thiểu trước khi nhập</label>
+        <input asp-for="MinTonTruocNhap" class="form-control" />
+        <span asp-validation-for="MinTonTruocNhap" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MaxNo" class="control-label">Số nợ tối đa</label>
+        <input asp-for="MaxNo" class="form-control" />
+        <span asp-validation-for="MaxNo" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Tạo Mới" class="btn btn-primary" />
+    </div>
+</form>
