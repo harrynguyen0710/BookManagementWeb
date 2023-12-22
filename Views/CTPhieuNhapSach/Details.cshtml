@@ -1,0 +1,60 @@
+﻿@model List<BookManagementWeb.ViewModel.CTPhieuNhapSachViewModel>
+
+
+<main>
+    <h2>Phiếu nhập</h2>
+    <div class="table-data" style="height: 200px; margin-top: -5px;">
+        <div class="order">
+            <div>
+                @if (Model != null && Model.Any())
+                {
+                    <div><span>Mã phiếu nhập </span>@Model[0].MaPhieuNhapSach</div>
+                    <div><span>Ngày lập: </span> @Model[0].NgayLapPhieuNhap.ToShortDateString()</div>
+                }
+                else
+                {
+                    <p>Danh sách trống hoặc không có dữ liệu.</p>
+                }
+               
+            </div>
+
+        </div>
+    </div>
+    <div class="table-data" style="height:400px;">
+        <div class="order" style="margin-top:10px;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tên Sách</th>
+                        <th>Mã Sách</th>
+                        <th>Thể loại</th>
+                        <th>Tác giả</th>
+                        <th>Số lượng nhập</th>
+                        <th>Đơn giá nhập</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ctPN in Model)
+                    {
+                        <tr>
+                            <td>@ctPN.TenSach</td>
+                            <td>@ctPN.MaSach</td>
+                            <td>@ctPN.TheLoai</td>
+                            <td>@ctPN.TacGia</td>
+                            <td>@ctPN.SoLuongNhap</td>
+                            <td>@ctPN.DonGiaNhap</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <a style="font-weight:bold; transform:translate(5px,20px); " asp-action="Index" asp-controller="PhieuNhapSach">Quay lại</a>
+</main>
+
+
+
+

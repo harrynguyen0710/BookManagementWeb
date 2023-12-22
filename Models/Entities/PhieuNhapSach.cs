@@ -13,7 +13,8 @@ namespace BookManagementWeb.Models.Entities
         [Column(TypeName = "date")]
         public DateTime NgayLapPhieuNhap { get; set; }
 
-        public virtual ICollection<CTPhieuNhapSach> CTPhieuNhapSachPN { get; set; }
+        public virtual ICollection<CTPhieuNhapSach> CTPhieuNhapSach { get; set; }
+
 
     }
 }

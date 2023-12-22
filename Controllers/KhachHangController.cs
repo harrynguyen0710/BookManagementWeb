@@ -1,12 +1,17 @@
-﻿using BookManagementWeb.Data;
+using BookManagementWeb.Data;
 using Microsoft.AspNetCore.Mvc;
 using BookManagementWeb.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http.Headers;
+using X.PagedList.Mvc.Core;
+using X.PagedList.Mvc;
+using X.PagedList;
 
 namespace BookManagementWeb.Controllers
 {
     public class KhachHangController : Controller
     {
+
         private readonly BookstoreDbContext _context;
 
         private readonly IWebHostEnvironment _webHost;
@@ -16,10 +21,14 @@ namespace BookManagementWeb.Controllers
             _context = context;
             _webHost = webHost;
         }
-        public IActionResult Index()
+
+        public IActionResult Index(int? page)
         {
-            List<KhachHang> khList = new List<KhachHang>();
-            khList = _context.KHACHHANG.ToList();
+            var pageNumber = page ?? 1; 
+            var pageSize = 5; 
+
+            var khList = _context.KHACHHANG.ToPagedList(pageNumber, pageSize);
+
             return View(khList);
         }
 
@@ -85,5 +94,6 @@ namespace BookManagementWeb.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         } */
+
     }
 }

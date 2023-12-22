@@ -1,0 +1,331 @@
+﻿<style>
+    import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap');
+    .table thead th {
+        border-bottom: none;
+    }
+</style>
+
+@model BookManagementWeb.ViewModel.HoaDonViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div style="height: 800px;">
+    <div class="main-body" style="background-color:#f9f9f9; margin: 35px 38px 0 38px; border-radius:12px; height: 340px;">
+        <div style="display:flex; flex-direction: row; justify-content:space-between;">
+            <h2 style="transform:translate(30px,20px);">Điền thông tin</h2>
+
+            <div style="margin-right:10px;">
+                <label class="control-label"></label>
+                <input asp-for="NgayLapHoaDon" class="form-control" type="date" id="NgayLapHDIP" />
+                <span asp-validation-for="NgayLapHoaDon" class="text-danger"></span>
+            </div>
+
+        </div>
+
+        <form asp-action="Create" method="post" id="book-form">
+            <div style="margin-left: 30px;">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div style="display: flex; flex-direction: row; justify-content: flex-start; margin: 9px 0 10px 0; ">
+                    <div style="margin-left:15px;">
+                        <label class="control-label" style="font-weight:bold;">Mã hoá đơn</label>
+                        <input asp-for="MaHoaDon" class="form-control" type="number" readonly id="MaHoaDonIP" />
+                        <span asp-validation-for="MaHoaDon" class="text-danger"></span>
+                    </div>
+
+                    <div style="margin-left:100px;">
+                        <label for="MaKhachHang" style="font-weight:bold;">Khách hàng</label>
+                        @if (ViewBag.MaKhachHangList != null)
+                        {
+                            <select class="form-control" id="MaKhachHangIP" style="width:210px;">
+                                @foreach (var kh in ViewBag.MaKhachHangList)
+                                {
+                                    <option class="text" value="@kh.Value">@kh.Text</option>
+                                }
+                            </select>
+                        }
+                        else
+                        {
+                            <p class="text-danger">Không có danh sách khách hàng.</p>
+                        }
+                    </div>
+
+                </div>
+
+
+                <div style="display: flex; flex-direction: column; margin-left: 15px; ">
+                    <div class="form-group" style="margin-bottom:10px; width: 46%;">
+                        <label for="MaSach" style="font-weight:bold;">Sách</label>
+                        @if (ViewBag.MaSachList != null)
+                        {
+                            <select class="form-control" id="luaChonSach">
+                                @foreach (var sach in ViewBag.MaSachList)
+                                {
+                                    <option value="@sach.Value">@sach.Text</option>
+                                }
+                            </select>
+                        }
+                        else
+                        {
+                            <p class="text-danger">Không có danh sách sách.</p>
+                        }
+
+                    </div>
+
+
+
+                    <div id="bookFields" style="display:flex; flex-direction: row;">
+                        <div class="form-group">
+                            <label for="SoLuongBan" style="font-weight:bold;">Nhập Số Lượng</label>
+                            <input class="form-control" id="SoLuongBan" min="0" />
+                            <span asp-validation-for="SoLuongBan" id="soLuongBanError" class="text-danger"></span>
+
+
+                        </div>
+
+                        <div class="form-group" style="margin-left: 100px;">
+                            <label for="DonGiaBan" style="font-weight:bold;">Nhập đơn giá bán</label>
+                            <input class="form-control" step="0.01" id="DonGiaBan" min="0" />
+                            <span id="donGiaBanError" asp-validation-for="DonGiaBan" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div style="display:flex; flex-direction:row; justify-content: space-between; margin-top: 5px;">
+                    <a asp-action="Index" style="margin-left: 20px; margin-top: 10px;">Quay lại</a>
+                    <button style="background:#008000; font-weight:bold; border-radius:10px; margin-right: 20px;" type="button" onclick="ThemSach();" class="btn btn-secondary">Thêm Sách</button>
+                </div>
+
+            </div>
+
+
+            <input type="hidden" id="HDSachListField" name="HDSachList" />
+
+            <div class="container mt-4" style="transform:translateY(25px); height: 300px; border-radius: 15px; background-color:#ffffff; width:100%;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="font-weight: bold; font-size: 17px;" scope="col">Tên Sách</th>
+                            <th style="font-weight: bold; font-size: 17px;" scope="col">Mã Sách</th>
+                            <th style="font-weight: bold; font-size: 17px;" scope="col">Số Lượng</th>
+                            <th style="font-weight: bold; font-size: 17px;" scope="col">Đơn Giá</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookList" >
+
+                    </tbody>
+                    <span id="LoiFormRong"></span>
+                </table>
+            </div>
+            <button id="nut-thanhtien" onclick="TaoHoaDon(event);" style="margin-top: 40px; border-radius: 15px; font-weight: bold; transform:translateX(1050px);" type="submit" class="btn btn-primary">Thành tiền</button>
+        </form>
+    </div>
+
+
+
+</div>
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function LamMoiInput() {
+            numberInput.value = "";
+            priceInput.value = "";
+        }
+
+        function laySoLuongTrongKho(maSach) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: '/HoaDon/LaySoLuongTonTrongKho',
+                    type: 'GET',
+                    data: { maSach: maSach },
+                    success: function (result) {
+                        resolve(result.soLuongTrongKho);
+                    },
+                    error: function (error) {
+                        console.error('Đã xảy ra lỗi: ', error);
+                        reject(error);
+                    }
+                });
+            });
+        }
+
+
+        function HienThiLoiSoLuongTonSach(soLuongSachTonTrongKho, soLuongSachBan) {
+            if (soLuongSachTonTrongKho < soLuongSachBan) {
+                soLuongBanError.innerText = `Số lượng tồn trong kho là ${soLuongSachTonTrongKho}, không thể thực hiện giao dịch!`;
+                LamMoiInput();
+                soLuongBanError.style.color = 'red';
+
+                setTimeout(function () {
+                    soLuongBanError.innerText = "";
+                }, 7000);
+
+                return true;
+            } else {
+                soLuongBanError.innerText = "";
+            }
+        }
+
+
+        var bookFieldIndex = 1;
+
+        const selectedBook = document.getElementById("luaChonSach");
+        const numberInput = document.getElementById("SoLuongBan");
+        const priceInput = document.getElementById("DonGiaBan");
+        const dateBillInput = document.getElementById("NgayLapHDIP")
+        const billId = document.getElementById("MaHoaDonIP")
+        const customerId = document.getElementById("MaKhachHangIP")
+        const nutThanhTien = document.getElementById("nut-thanhtien")
+        const loiFormRong = document.getElementById("LoiFormRong")
+
+        const canhBaoSoLuongSachTonTrongKho = document.getElementById("soLuongTrongKho");
+
+
+        const bookList = document.getElementById("bookList");
+
+        function TaoHoaDon(event) {
+            if (!window.HDSachList) {
+                loiFormRong.innerText = "Vui lòng điền form hoá đơn";
+                loiFormRong.style.color = "red";
+                setTimeout(function () {
+                    loiFormRong.innerText = "";
+                }, 7000);
+                event.preventDefault();
+                return;
+            }
+
+
+
+        }
+
+
+        async function ThemSach() {
+            var pattern = /^[1-9]\d*$/;
+            if (numberInput.value.trim() === '' || !pattern.test(numberInput.value.trim())){
+                document.getElementById("soLuongBanError").innerText = "Vui lòng nhập giá trị cho số lượng.";
+                return;
+            } else {
+                document.getElementById("soLuongBanError").innerText = "";
+            }
+
+            if (priceInput.value.trim() === '' || !pattern.test( priceInput.value.trim() )) {
+                document.getElementById("donGiaBanError").innerText = "Vui lòng nhập giá trị cho đơn giá bán.";
+                return;
+            } else {
+                document.getElementById("donGiaBanError").innerText = "";
+            }
+
+            var soLuongSachTonTrongKho = await laySoLuongTrongKho(selectedBook.value)
+            var soLuongSachBan = parseInt(numberInput.value)
+
+            if (HienThiLoiSoLuongTonSach(soLuongSachTonTrongKho, soLuongSachBan)) {
+                numberInput.focus();
+                return;
+            }
+
+
+            window.HDSachList = window.HDSachList || [];
+
+            const sachTonTai = window.HDSachList.find(item => item.MaSach === selectedBook.value);
+
+            if (sachTonTai) {
+                var soLuongSachBan = parseInt(sachTonTai.SoLuongBan) + parseInt(numberInput.value);
+                if (HienThiLoiSoLuongTonSach(soLuongSachTonTrongKho, soLuongSachBan)) {
+                    numberInput.focus();
+                    return;
+                }
+                else {
+                    sachTonTai.SoLuongBan = soLuongSachBan;
+                    sachTonTai.DonGiaBan = priceInput.value;
+                    const rowIndex = Array.from(bookList.rows).findIndex(row => row.cells[1].innerText === sachTonTai.MaSach);
+                    if (rowIndex !== -1) {
+                        bookList.rows[rowIndex].cells[2].innerText = sachTonTai.SoLuongBan;
+                        bookList.rows[rowIndex].cells[3].innerText = sachTonTai.DonGiaBan;
+                    }
+                }
+            }
+            else {
+                const row = document.createElement('tr');
+                row.id = `bookRow${bookFieldIndex - 1}`;
+
+                const selectedBookOption = selectedBook.options[selectedBook.selectedIndex];
+                const selectedBookName = selectedBookOption.text;
+
+                const hoaDonItem = {
+                    MaHoaDon: billId.value,
+                    MaKhachHang: customerId.value,
+                    NgayLapHoaDon: dateBillInput.value,
+
+                    MaSach: selectedBook.value,
+                    SoLuongBan: numberInput.value,
+                    DonGiaBan: priceInput.value,
+                };
+
+                row.innerHTML =
+                    `
+                                                                <td>${selectedBookName}</td>
+                                                                <td>${hoaDonItem.MaSach}</td>
+                                                                <td>${hoaDonItem.SoLuongBan}</td>
+                                                                <td>${hoaDonItem.DonGiaBan}</td>
+                                                                <td><a href='#' onclick='XoaSach(${bookFieldIndex - 1})'><i class='bx bxs-x-circle'></i></a></td>
+                                                         `;
+
+                bookList.appendChild(row);
+
+                window.HDSachList.push(hoaDonItem);
+
+
+                for (var i in window.HDSachList) {
+                    var item = window.HDSachList[i];
+                    console.log(item.MaHoaDon);
+                    console.log(item.MaKhachHang);
+                    console.log(item.NgayLapHoaDon);
+                    console.log(item.MaSach);
+                    console.log(item.SoLuongBan);
+                    console.log(item.DonGiaBan);
+                    console.log("--------");
+                }
+
+
+
+
+
+            }
+
+
+            bookFieldIndex++;
+            document.getElementById("HDSachListField").value = JSON.stringify(window.HDSachList);
+
+
+            LamMoiInput();
+
+        }
+
+
+        function XoaSach(index) {
+            console.log("Trong xoá sách")
+            const rowToDelete = document.getElementById(`bookRow${index}`);
+
+            for (var i in window.HDSachList) {
+                var item = window.HDSachList[i];
+                console.log(item.MaHoaDon);
+                console.log(item.MaKhachHang);
+                console.log(item.NgayLapHoaDon);
+                console.log(item.MaSach);
+                console.log(item.SoLuongBan);
+                console.log(item.DonGiaBan);
+                console.log("--------");
+            }
+            window.HDSachList.splice(index, 1);
+            rowToDelete.remove();
+        }
+    </script>
+}

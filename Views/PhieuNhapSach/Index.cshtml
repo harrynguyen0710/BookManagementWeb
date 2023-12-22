@@ -1,0 +1,82 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@model List<BookManagementWeb.Models.Entities.PhieuNhapSach>
+
+
+<main>
+    <h1>Danh sách Phiếu nhập sách</h1>
+    <ul class="box-info">
+        <li>
+            <span class="text">
+                <h3>15,852,341</h3>
+                <p>Tổng doanh thu</p>
+            </span>
+            <i class="fa-solid fa-dollar-sign" style="color: #17b51a; transform:translate(27px,-10px); font-size: 50px;"></i>
+
+        </li>
+        <li>
+            <span class="text">
+                <h3>15</h3>
+                <p>Tổng đơn hàng mới</p>
+            </span>
+            <i class="fa-solid fa-file" style="color: #cb9c1a; transform: translate(17px,-10px); font-size: 50px; "></i>
+        </li>
+        <li>
+            <span class="text">
+                <h3>50</h3>
+                <p>Tổng sách đã bán</p>
+            </span>
+            <i class="fa-solid fa-book" style="color: #513f1f; transform: translate(17px,-10px); font-size: 50px; "></i>
+        </li>
+        <li>
+            <span class="text">
+                <h3>10</h3>
+                <p>Tổng khách hàng</p>
+            </span>
+            <i class="fa-solid fa-cart-shopping" style="color: #cb5e15; transform: translate(17px,-10px); font-size: 50px; "></i>
+        </li>
+    </ul>
+
+
+    <div class="table-data" style="height: 600px;">
+        <div class="order">
+            <div class="head">
+                <h3>Danh sách Phiếu nhập sách</h3>
+                <a asp-action="Create" asp-controller="PhieuNhapSach">
+                    <i class='bx bx-plus' style="font-size:30px; color:green; font-weight: bold;"></i>
+                </a>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="font-size:18px;">Mã phiếu nhập</th>
+                        <th style="font-size:18px;">Ngày lập phiếu</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var phieuNhap in Model)
+                    {
+                        <tr>
+                            <td>@phieuNhap.MaPhieuNhapSach</td>
+                            <td>@phieuNhap.NgayLapPhieuNhap.ToShortDateString()</td>
+                            <td>
+                                <a asp-action="Details" asp-route-MaPhieuNhapSach="@phieuNhap.MaPhieuNhapSach" asp-controller="CTPhieuNhapSach"
+                                   style="font-size:15px; background-color:#3c91e6; color: #ffffff; font-weight: bold; border-radius: 15px; width: 85px; height: 43px; cursor: pointer; border: none; cursor:pointer; margin-right:14px; display: inline-flex; align-items: center; justify-content: center;">
+                                    Chi tiết
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+
+
+</main>

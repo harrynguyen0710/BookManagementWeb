@@ -10,7 +10,9 @@
 <body>
     <div class="main-body" style="background-color:#f9f9f9; margin: 60px 50px 0 50px; border-radius:12px; height: 600px;
        ">
+
         @*        <h1>Thêm Khách Hàng</h1>*@
+
         <div class="row" style="height:inherit; width:100%;">
             <div class="col-md-4" style="height:inherit; width:100%;">
                 <form asp-action="Create" asp-controller="KhachHang" enctype="multipart/form-data" method="post"
@@ -21,6 +23,7 @@
                         <div class="form-group col-4 p-0" style=" transform: translateX(-80px);">
                             <label class="control-label"></label>
                         </div>
+
                         <div class="col-1 p-0"></div>
                     </div>
 
@@ -29,6 +32,7 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div style="transform:translateY(-45px);">
                             <div class="form-group" style="width: 80%;">
+
                                 <label asp-for="MaKhachHang" class="control-label" style="font-size:18px; margin-bottom:5px; font-weight:bold;">Mã khách hàng</label>
                                 <input type="number" asp-for="MaKhachHang" class="form-control input-lg" style="height:40px; font-size: 17px;" />
                                 <span asp-validation-for="MaKhachHang" class="text-danger"></span>
@@ -36,19 +40,20 @@
 
                             <div class="form-group" style="width: 80%;">
                                 <label asp-for="HoVaTen" class="control-label"  style="font-size:18px; margin-bottom:5px; font-weight:bold;">Tên khách hàng</label>
+
                                 <input asp-for="HoVaTen" class="form-control input-lg" style="height:40px; font-size: 17px;" />
                                 <span asp-validation-for="HoVaTen" class="text-danger"></span>
                             </div>
 
                             <div class="form-group" style="width: 80%;">
                                 <label asp-for="GioiTinh" class="control-label" style="font-size:18px; margin-bottom:5px; font-weight:bold;">Giới tính</label>
+
                                 <select asp-for="GioiTinh" class="form-control input-lg">
                                     <option value="true">Nam</option>
                                     <option value="false">Nữ</option>
                                 </select>
                                 <span asp-validation-for="GioiTinh" class="text-danger"></span>
                             </div>
-
 
                             <div class="form-group" style="width: 80%;">
                                 <label asp-for="Email" class="control-label" style="font-size:18px; margin-bottom:5px; font-weight:bold;">Email</label>
@@ -57,7 +62,8 @@
                             </div>
 
                             <div class="form-group" style="width: 80%;">
-                                <label asp-for="SDT" class="control-label" style="font-size:18px; margin-bottom:5px; font-weight:bold;">SĐT</label>
+                                <label asp-for="SDT" class="control-label" style="font-size:18px; margin-bottom:5px; font-weight:bold;">Số điện thoại</label>
+
                                 <input asp-for="SDT" class="form-control input-lg" style="height:40px; font-size: 17px;" />
                                 <span asp-validation-for="SDT" class="text-danger"></span>
                             </div>
@@ -71,6 +77,7 @@
                         </div>
 
                         <div class="form-group">
+
                             <button type="submit" class="btn btn-primary btn-lg" style=" height:40px; width:120px; font-size:15px; font-weight:bold; text-align:center;  margin-top:28px; transform:translateX(420px);">Thêm</button>
                         </div>
                     </div>
@@ -87,4 +94,5 @@
     </div>
 </body>
 </html>
+
 
