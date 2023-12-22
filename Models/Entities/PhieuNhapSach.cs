@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿/* using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace BookManagementWeb.Models.Entities
@@ -17,3 +17,4 @@ namespace BookManagementWeb.Models.Entities
 
     }
 }
+*/

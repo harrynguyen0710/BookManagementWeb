@@ -2,6 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using BookManagementWeb.Models.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http.Headers;
+using X.PagedList.Mvc.Core;
+using X.PagedList.Mvc;
+using X.PagedList;
 
 namespace BookManagementWeb.Controllers
 {
@@ -17,10 +21,13 @@ namespace BookManagementWeb.Controllers
             _webHost = webHost;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
-            List<KhachHang> khList = new List<KhachHang>();
-            khList = _context.KHACHHANG.ToList();
+            var pageNumber = page ?? 1; 
+            var pageSize = 5; 
+
+            var khList = _context.KHACHHANG.ToPagedList(pageNumber, pageSize);
+
             return View(khList);
         }
 

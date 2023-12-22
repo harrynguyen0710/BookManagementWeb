@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\PhieuNhapSach\" />
     <Folder Include="wwwroot\images\" />
 
 
