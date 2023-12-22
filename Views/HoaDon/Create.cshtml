@@ -10,6 +10,7 @@
 @{
     ViewData["Title"] = "Create";
 }
+
 <div style="height: 800px;">
     <div class="main-body" style="background-color:#f9f9f9; margin: 35px 38px 0 38px; border-radius:12px; height: 340px;">
         <div style="display:flex; flex-direction: row; justify-content:space-between;">
@@ -207,16 +208,16 @@
 
 
         async function ThemSach() {
-
-            if (numberInput.value.trim() === '' || numberInput.value.trim() == 0) {
-                document.getElementById("soLuongBanError").innerText = "Vui lòng nhập số lượng.";
+            var pattern = /^[1-9]\d*$/;
+            if (numberInput.value.trim() === '' || !pattern.test(numberInput.value.trim())){
+                document.getElementById("soLuongBanError").innerText = "Vui lòng nhập giá trị cho số lượng.";
                 return;
             } else {
                 document.getElementById("soLuongBanError").innerText = "";
             }
 
-            if (priceInput.value.trim() === '' || priceInput.value.trim() == 0) {
-                document.getElementById("donGiaBanError").innerText = "Vui lòng nhập đơn giá bán.";
+            if (priceInput.value.trim() === '' || !pattern.test( priceInput.value.trim() )) {
+                document.getElementById("donGiaBanError").innerText = "Vui lòng nhập giá trị cho đơn giá bán.";
                 return;
             } else {
                 document.getElementById("donGiaBanError").innerText = "";
@@ -323,8 +324,8 @@
                 console.log(item.DonGiaBan);
                 console.log("--------");
             }
-            rowToDelete.remove();
             window.HDSachList.splice(index, 1);
+            rowToDelete.remove();
         }
     </script>
 }

@@ -7,7 +7,7 @@
         <div class="order">
             <div>
                 <div><span>Mã hoá đơn </span>@Model[0].MaHoaDon</div>
-                <div><span>Ngày lập: </span> @Model[0].NgayLapHoaDon</div>
+                <div><span>Ngày lập: </span> @Model[0].NgayLapHoaDon.ToShortDateString()</div>
                 <div><span>Mã khách hàng: </span>@Model[0].MaKhachHang</div>
                 <div><span>Khách hàng: </span>@Model[0].TenKhachHang</div>
                 <div><span>Số nợ: </span>@Model[0].SoTienKhachNo</div>
