@@ -68,7 +68,38 @@ public class BaoCaoTonKhoController : Controller
 
         var soLuongCuoiThang = soLuongNhap - soLuongBan;
 
-        return soLuongCuoiThang < 0 ? 0 : soLuongCuoiThang; // Đảm bảo số lượng không âm
+        // Kiểm tra xem có phiếu nhập sách trong tháng hiện tại không
+        if (soLuongCuoiThang < 0)
+        {
+            // Lặp lại cho đến khi tìm thấy giá trị có sẵn
+            while (selectedMonth > 0)
+            {
+                selectedMonth--;
+
+                var soLuongCuoiThangTruoc = context.CTPHIEUNHAPSACH
+                    .Where(ctpn => ctpn.MaSach == maSach && ctpn.PhieuNhapSach.NgayLapPhieuNhap.Month == selectedMonth && ctpn.PhieuNhapSach.NgayLapPhieuNhap.Year == selectedYear)
+                    .Select(ctpn => ctpn.SoLuongNhap)
+                    .Sum();
+
+                var soLuongBanThangTruoc = context.CTHOADONBANSACH
+                    .Where(cthd => cthd.MaSach == maSach && cthd.HoaDon.NgayLapHoaDon.Month == selectedMonth && cthd.HoaDon.NgayLapHoaDon.Year == selectedYear)
+                    .Select(cthd => cthd.SoLuongBan)
+                    .Sum();
+
+                soLuongCuoiThang = soLuongCuoiThangTruoc - soLuongBanThangTruoc;
+
+                if (soLuongCuoiThang >= 0)
+                {
+                    return soLuongCuoiThang;
+                }
+            }
+
+            // Nếu không có giá trị nào được tìm thấy, bạn có thể trả về 0 hoặc giá trị mặc định khác
+            return 0;
+        }
+
+        return soLuongCuoiThang;
     }
+
 
 }

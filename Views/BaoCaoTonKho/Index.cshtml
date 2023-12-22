@@ -34,6 +34,7 @@
             <th>Mã Sách</th>
             <th>Tên Sách</th>
             <th>Số Lượng Đầu Tháng</th>
+            <th>Phát Sinh</th>
             <th>Số Lượng Cuối Tháng</th>
         </tr>
     </thead>
@@ -44,6 +45,7 @@
                 <td>@item.MaSach</td>
                 <td>@item.TenSach</td>
                 <td>@item.SoLuongDauThang</td>
+                <td>@(item.SoLuongCuoiThang - item.SoLuongDauThang)</td>
                 <td>@item.SoLuongCuoiThang</td>
             </tr>
         }

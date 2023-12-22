@@ -57,6 +57,31 @@ public class BaoCaoCongNoController : Controller
             .Select(pt => pt.SoTienKhachNo)
             .FirstOrDefault();
 
+        // Kiểm tra xem có phiếu thu tiền trong tháng hiện tại không
+        if (noCuoiThangHienTai == null)
+        {
+            // Lặp lại cho đến khi tìm thấy giá trị có sẵn
+            while (selectedMonth > 0)
+            {
+                selectedMonth--;
+
+                var noCuoiThangTruoc = context.PHIEUTHUTIEN
+                    .Where(pt => pt.HoaDon.MaKhachHang == maKhachHang && pt.NgayLapPhieuThuTien.Month == selectedMonth && pt.NgayLapPhieuThuTien.Year == selectedYear)
+                    .OrderByDescending(pt => pt.NgayLapPhieuThuTien)
+                    .Select(pt => pt.SoTienKhachNo)
+                    .FirstOrDefault();
+
+                if (noCuoiThangTruoc != null)
+                {
+                    return noCuoiThangTruoc;
+                }
+            }
+
+            // Nếu không có giá trị nào được tìm thấy, bạn có thể trả về null hoặc giá trị mặc định khác
+            return null;
+        }
+
         return noCuoiThangHienTai;
     }
+
 }

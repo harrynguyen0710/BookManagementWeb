@@ -34,7 +34,9 @@
             <th>Mã Khách Hàng</th>
             <th>Tên Khách Hàng</th>
             <th>Nợ Đầu Tháng</th>
+            <th>Phát Sinh</th>
             <th>Nợ Cuối Tháng</th>
+
         </tr>
     </thead>
     <tbody>
@@ -44,8 +46,10 @@
                 <td>@item.MaKhachHang</td>
                 <td>@item.TenKhachHang</td>
                 <td>@item.NoDauThang</td>
+                <td>@(item.NoCuoiThang - item.NoDauThang)</td>
                 <td>@item.NoCuoiThang</td>
             </tr>
         }
     </tbody>
 </table>
+
