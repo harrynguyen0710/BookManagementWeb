@@ -1,4 +1,4 @@
-﻿/* using BookManagementWeb.Models.Entities;
+﻿using BookManagementWeb.Models.Entities;
 
 namespace BookManagementWeb.ViewModel
 {
@@ -13,4 +13,3 @@ namespace BookManagementWeb.ViewModel
         public List<PhieuNhapViewModel> phieuNhapViewModelList = new List<PhieuNhapViewModel>();
     }
 }
-*/
