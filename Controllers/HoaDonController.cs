@@ -54,13 +54,14 @@ namespace BookManagementWeb.Controllers
         [HttpPost]
         public IActionResult Create(HoaDonViewModel hdVM, string HDSachList)
         {
+
             decimal giaTriDonHang = 0;
             hdVM.HDSachList = JsonConvert.DeserializeObject<List<HoaDonViewModel>>(HDSachList);
-
+            var phanTuCuoi = hdVM.HDSachList.Count - 1;
             HoaDon hd = new HoaDon();
             hd.MaHoaDon = hdVM.HDSachList[0].MaHoaDon;
             hd.MaKhachHang = hdVM.HDSachList[0].MaKhachHang;
-            hd.NgayLapHoaDon = hdVM.HDSachList[0].NgayLapHoaDon;
+            hd.NgayLapHoaDon = hdVM.HDSachList[phanTuCuoi].NgayLapHoaDon;
 
             _context.HOADONBANSACH.Add(hd);
             _context.SaveChanges();

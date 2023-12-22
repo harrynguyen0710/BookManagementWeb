@@ -1,8 +1,319 @@
-@model BookManagementWeb.ViewModel.PhieuNhapViewModel
+﻿@model BookManagementWeb.ViewModel.PhieuNhapViewModel
 @{
     ViewData["Title"] = "Create";
 }
 
+<style>
+    import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap');
+    .table thead th {
+        border-bottom: none;
+    }
+</style>
 
 
+<div style="height: 800px;">
+    <div class="main-body" style="background-color:#f9f9f9; margin: 35px 38px 0 38px; border-radius:12px; height: 340px;">
+        <div style="display:flex; flex-direction: row; justify-content:space-between;">
+            <h2 style="transform:translate(30px,20px);">Điền thông tin</h2>
+
+            <div style="margin-right:10px;">
+                <label class="control-label"></label>
+                <input asp-for="NgayLapPhieuNhap" class="form-control" type="date" id="NgayLapPNIP" />
+                <span asp-validation-for="NgayLapPhieuNhap" class="text-danger"></span>
+            </div>
+
+        </div>
+
+        <form asp-action="Create" method="post" id="book-form">
+            <div style="margin-left: 30px;">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div style="display: flex; flex-direction: row; justify-content: flex-start; margin: 9px 0 10px 0; ">
+                    <div style="margin-left:15px;">
+                        <label class="control-label" style="font-weight:bold;">Mã phiếu nhập</label>
+                        <input asp-for="MaPhieuNhapSach" class="form-control" type="number" readonly id="MaPhieuNhapIP" />
+                        <span asp-validation-for="MaPhieuNhapSach" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+                <div style="display: flex; flex-direction: column; margin-left: 15px; ">
+                    <div class="form-group" style="margin-bottom:10px; width: 46%;">
+                        <label for="MaSach" style="font-weight:bold;">Sách</label>
+                        @if (ViewBag.MaSachList != null)
+                        {
+                            <select class="form-control" id="luaChonSach">
+                                @foreach (var sach in ViewBag.MaSachList)
+                                {
+                                    <option value="@sach.Value">@sach.Text</option>
+                                }
+                            </select>
+                        }
+                        else
+                        {
+                            <p class="text-danger">Không có danh sách sách.</p>
+                        }
+
+                    </div>
+                    @*Lập phiếu*@
+
+
+                    <div id="bookFields" style="display:flex; flex-direction: row;">
+                        <div class="form-group">
+                            <label for="SoLuongNhap" style="font-weight:bold;">Nhập Số Lượng</label>
+                            <input class="form-control" id="SoLuongNhap" min="0" />
+                            <span asp-validation-for="SoLuongNhap" id="soLuongNhapError" class="text-danger"></span>
+
+
+                        </div>
+
+                        <div class="form-group" style="margin-left: 100px;">
+                            <label for="DonGiaNhap" style="font-weight:bold;">Nhập đơn giá</label>
+                            <input class="form-control" step="0.01" id="DonGiaNhap" min="0" />
+                            <span id="donGiaNhapError" asp-validation-for="DonGiaNhap" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div style="display:flex; flex-direction:row; justify-content: space-between; margin-top: 5px;">
+                    <a asp-action="Index" style="margin-left: 20px; margin-top: 10px;">Quay lại</a>
+                    <button style="background:#008000; font-weight:bold; border-radius:10px; margin-right: 20px;" type="button" onclick="ThemSach();" class="btn btn-secondary">Thêm Sách</button>
+                </div>
+
+            </div>
+
+            @*HDSachList*@
+            <input type="hidden" id="PNSachListField" name="PNSachList" />
+
+            <div class="container mt-4" style="transform:translateY(25px); height: 300px; border-radius: 15px; background-color:#ffffff; width:100%;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="font-weight: bold; font-size: 17px;" scope="col">Tên Sách</th>
+                            <th style="font-weight: bold; font-size: 17px;" scope="col">Mã Sách</th>
+                            <th style="font-weight: bold; font-size: 17px;" scope="col">Số Lượng</th>
+                            <th style="font-weight: bold; font-size: 17px;" scope="col">Đơn Giá</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookList">
+                    </tbody>
+                    <span id="LoiFormRong"></span>
+                </table>
+            </div>
+            <button id="nut-thanhtien" onclick="TaoHoaDon(event);" style="margin-top: 40px; border-radius: 15px; font-weight: bold; transform:translateX(1050px);" type="submit" class="btn btn-primary">Lập phiếu</button>
+        </form>
+    </div>
+
+
+
+</div>
+
+
+@*Lập phiếu*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function LamMoiInput() {
+            numberInput.value = "";
+            priceInput.value = "";
+        }
+
+        function laySoLuongTrongKho(maSach) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: '/PhieuNhapSach/LaySoLuongTonTrongKho',
+                    type: 'GET',
+                    data: { maSach: maSach },
+                    success: function (result) {
+                        resolve(result.soLuongTrongKho);
+                    },
+                    error: function (error) {
+                        console.error('Đã xảy ra lỗi: ', error);
+                        reject(error);
+                    }
+                });
+            });
+        }
+
+        /*CUSTOMIZE RULES HERE*/
+        function HienThiLoiSoLuongTonSach(soLuongSachTonTrongKho, soLuongSachNhap) {
+            var tongSachNhap = soLuongSachNhap + soLuongSachTonTrongKho;
+            if (tongSachNhap > 500) {
+                soLuongNhapError.innerText = `Số lượng tồn trong kho là ${soLuongSachTonTrongKho}, không thể nhập thêm sách!`;
+                LamMoiInput();
+                soLuongNhapError.style.color = 'red';
+
+                setTimeout(function () {
+                    soLuongNhapError.innerText = "";
+                }, 7000);
+
+                return true;
+            } else {
+                soLuongNhapError.innerText = "";
+            }
+        }
+
+
+        var bookFieldIndex = 1;
+
+        const selectedBook = document.getElementById("luaChonSach");
+        const numberInput = document.getElementById("SoLuongNhap");
+        const priceInput = document.getElementById("DonGiaNhap");
+        const ngayLapInput = document.getElementById("NgayLapPNIP")
+        const pnId = document.getElementById("MaPhieuNhapIP")
+
+        const nutThanhTien = document.getElementById("nut-thanhtien")
+        const loiFormRong = document.getElementById("LoiFormRong")
+
+        const canhBaoSoLuongSachTonTrongKho = document.getElementById("soLuongTrongKho");
+
+
+        const bookList = document.getElementById("bookList");
+
+
+        function TaoHoaDon(event) {
+            if (!window.PNSachList) {
+                loiFormRong.innerText = "Không thể lập phiếu nhập rỗng";
+                loiFormRong.style.color = "red";
+                setTimeout(function () {
+                    loiFormRong.innerText = "";
+                }, 7000);
+                event.preventDefault();
+                return;
+            }
+
+
+
+        }
+
+
+        async function ThemSach() {
+            console.log("Xin chao")
+            var pattern = /^[1-9]\d*$/;
+
+            if (numberInput.value.trim() === '' || !pattern.test(numberInput.value.trim())) {
+                document.getElementById("soLuongNhapError").innerText = "Vui lòng nhập giá trị cho số lượng.";
+                return;
+            } else {
+                document.getElementById("soLuongNhapError").innerText = "";
+            }
+
+            if (priceInput.value.trim() === '' || !pattern.test(priceInput.value.trim())) {
+                document.getElementById("donGiaNhapError").innerText = "Vui lòng nhập giá trị cho đơn giá bán.";
+                return;
+            } else {
+                document.getElementById("donGiaNhapError").innerText = "";
+            }
+
+            var soLuongSachTonTrongKho = await laySoLuongTrongKho(selectedBook.value)
+            var soLuongSachNhap = parseInt(numberInput.value)
+
+            if (HienThiLoiSoLuongTonSach(soLuongSachTonTrongKho, soLuongSachNhap)) {
+                numberInput.focus();
+                return;
+            }
+
+
+            window.PNSachList = window.PNSachList || [];
+
+            const sachTonTai = window.PNSachList.find(item => item.MaSach === selectedBook.value);
+
+            if (sachTonTai) {
+                console.log("gia tri cua so luong nhap cu: ", parseInt(sachTonTai.SoLuongNhap))
+                console.log("gia tri cua so luong nhap moi: ", parseInt(numberInput.value))
+
+                var tongLuongSachNhap = parseInt(sachTonTai.SoLuongNhap) + parseInt(numberInput.value);
+                if (HienThiLoiSoLuongTonSach(soLuongSachTonTrongKho, soLuongSachNhap)) {
+                    numberInput.focus();
+                    return;
+                }
+                else {
+                    sachTonTai.SoLuongNhap = tongLuongSachNhap;
+                    sachTonTai.DonGiaNhap = priceInput.value;
+                    const rowIndex = Array.from(bookList.rows).findIndex(row => row.cells[1].innerText === sachTonTai.MaSach);
+                    if (rowIndex !== -1) {
+                        bookList.rows[rowIndex].cells[2].innerText = sachTonTai.SoLuongNhap;
+                        bookList.rows[rowIndex].cells[3].innerText = sachTonTai.DonGiaNhap;
+                    }
+                }
+            }
+            else {
+                const row = document.createElement('tr');
+                row.id = `bookRow${bookFieldIndex - 1}`;
+
+                const selectedBookOption = selectedBook.options[selectedBook.selectedIndex];
+                const selectedBookName = selectedBookOption.text;
+
+                const phieuNhapItem = {
+                    MaPhieuNhap: pnId.value,
+                    NgayLapPhieuNhap: ngayLapInput.value,
+
+                    MaSach: selectedBook.value,
+                    SoLuongNhap: numberInput.value,
+                    DonGiaNhap: priceInput.value,
+                };
+
+                row.innerHTML =
+                    `
+                                                                    <td>${selectedBookName}</td>
+                                                                    <td>${phieuNhapItem.MaSach}</td>
+                                                                    <td>${phieuNhapItem.SoLuongNhap}</td>
+                                                                    <td>${phieuNhapItem.DonGiaNhap}</td>
+                                                                    <td><a href='#' onclick='XoaSach(${bookFieldIndex - 1})'><i class='bx bxs-x-circle'></i></a></td>
+                                                             `;
+
+                bookList.appendChild(row);
+
+                window.PNSachList.push(phieuNhapItem);
+
+
+                for (var i in window.PNSachList) {
+                    var item = window.PNSachList[i];
+                    console.log(item.MaPhieuNhap);
+
+                    console.log(item.NgayLapPhieuNhap);
+                    console.log(item.MaSach);
+                    console.log(item.SoLuongNhap);
+                    console.log(item.DonGiaNhap);
+                    console.log("--------");
+                }
+
+
+
+
+
+            }
+
+
+            bookFieldIndex++;
+            document.getElementById("PNSachListField").value = JSON.stringify(window.PNSachList);
+
+
+            LamMoiInput();
+
+        }
+
+
+        function XoaSach(index) {
+            console.log("Trong xoá sách")
+            const rowToDelete = document.getElementById(`bookRow${index}`);
+
+            for (var i in window.PNSachList) {
+                var item = window.PNSachList[i];
+                console.log(item.MaPhieuNhap);
+
+                console.log(item.NgayLapPhieuNhap);
+                console.log(item.MaSach);
+                console.log(item.SoLuongNhap);
+                console.log(item.DonGiaNhap);
+                console.log("--------");
+            }
+            rowToDelete.remove();
+            window.PNSachList.splice(index, 1);
+        }
+    </script>
+}
 
