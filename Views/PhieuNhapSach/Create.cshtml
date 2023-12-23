@@ -115,7 +115,11 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
+<script>
+        var giaTriNhapToiThieu = @ViewBag.GiaTriNhapToiThieu;
+        var giaTriTonToiThieuTruocKhiNhap = @ViewBag.GiaTriTonToiThieuTruocKhiNhap;
+
+
         function LamMoiInput() {
             numberInput.value = "";
             priceInput.value = "";
@@ -141,8 +145,8 @@
         /*CUSTOMIZE RULES HERE*/
         function HienThiLoiSoLuongTonSach(soLuongSachTonTrongKho, soLuongSachNhap) {
             var tongSachNhap = soLuongSachNhap + soLuongSachTonTrongKho;
-            if (tongSachNhap > 500) {
-                soLuongNhapError.innerText = `Số lượng tồn trong kho là ${soLuongSachTonTrongKho}, không thể nhập thêm sách!`;
+            if (tongSachNhap > giaTriTonToiThieuTruocKhiNhap) {
+                soLuongNhapError.innerText = `Số lượng tồn trong kho là ${soLuongSachTonTrongKho}, không thể nhập thêm số lượng sách vượt quá ${giaTriTonToiThieuTruocKhiNhap}`;
                 LamMoiInput();
                 soLuongNhapError.style.color = 'red';
 
@@ -197,7 +201,12 @@
             if (numberInput.value.trim() === '' || !pattern.test(numberInput.value.trim())) {
                 document.getElementById("soLuongNhapError").innerText = "Vui lòng nhập giá trị cho số lượng.";
                 return;
-            } else {
+            }
+            else if (numberInput.value.trim() < giaTriNhapToiThieu) {
+                document.getElementById("soLuongNhapError").innerText = `Giá trị nhập tối thiểu là ${giaTriNhapToiThieu}. Vui lòng nhập lại`;
+                return;
+            }
+            else {
                 document.getElementById("soLuongNhapError").innerText = "";
             }
 
@@ -314,6 +323,6 @@
             rowToDelete.remove();
             window.PNSachList.splice(index, 1);
         }
-    </script>
+</script>
 }
 

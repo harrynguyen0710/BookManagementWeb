@@ -44,6 +44,7 @@ namespace BookManagementWeb.Controllers
 
         public IActionResult Create()
         {
+            ViewBag.GiaTriTonToiThieuSauBan = _context.THAYDOIQUYDINH.Select(x => x.MinTonSauBan).FirstOrDefault();
             ViewBag.MaSachList = new SelectList(_context.SACH, "MaSach", "TenSach");
             ViewBag.MaKhachHangList = new SelectList(_context.KHACHHANG, "MaKhachHang", "HoVaTen");
 
