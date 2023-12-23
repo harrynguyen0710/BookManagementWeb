@@ -19,7 +19,7 @@ public class ThayDoiQuyDinhController : Controller
         var thayDoiQuyDinh = await _context.THAYDOIQUYDINH.ToListAsync();
         return View(thayDoiQuyDinh);
     }
-
+/*
     public IActionResult Create()
     {
         return View();
@@ -36,6 +36,23 @@ public class ThayDoiQuyDinhController : Controller
             return RedirectToAction(nameof(Index));
         }
         return View(thayDoiQuyDinh);
+    }*/
+
+    public IActionResult Edit()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(ThayDoiQuyDinh thayDoiQuyDinh)
+    {
+        thayDoiQuyDinh.LanThayDoi = 1;
+        _context.Attach(thayDoiQuyDinh);
+        _context.Entry(thayDoiQuyDinh).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+        
     }
 
     private bool ThayDoiQuyDinhExists(int id)

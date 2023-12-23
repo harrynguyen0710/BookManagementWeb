@@ -135,6 +135,7 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
+        var soLuongTonToiThieuSauBan = @ViewBag.GiaTriTonToiThieuSauBan;
         function LamMoiInput() {
             numberInput.value = "";
             priceInput.value = "";
@@ -159,8 +160,9 @@
 
 
         function HienThiLoiSoLuongTonSach(soLuongSachTonTrongKho, soLuongSachBan) {
-            if (soLuongSachTonTrongKho < soLuongSachBan) {
-                soLuongBanError.innerText = `Số lượng tồn trong kho là ${soLuongSachTonTrongKho}, không thể thực hiện giao dịch!`;
+            var soLuongSauBan = soLuongSachTonTrongKho - soLuongSachBan;
+            if (soLuongSauBan < soLuongTonToiThieuSauBan) {
+                soLuongBanError.innerText = `Số lượng tồn trong kho sau bán là ${soLuongSauBan} thấp hơn tồn tối thiểu sau bán là ${soLuongTonToiThieuSauBan}, không thể thực hiện giao dịch!`;
                 LamMoiInput();
                 soLuongBanError.style.color = 'red';
 

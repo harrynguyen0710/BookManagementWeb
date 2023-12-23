@@ -30,6 +30,8 @@ namespace BookManagementWeb.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.GiaTriNhapToiThieu = _context.THAYDOIQUYDINH.Select(x => x.MinNhap).FirstOrDefault();
+            ViewBag.GiaTriTonToiThieuTruocKhiNhap = _context.THAYDOIQUYDINH.Select(x => x.MinTonTruocNhap).FirstOrDefault();   
             ViewBag.MaSachList = new SelectList(_context.SACH, "MaSach", "TenSach");
             var phieuNhapViewModel = new PhieuNhapViewModel();
             return View(phieuNhapViewModel);
