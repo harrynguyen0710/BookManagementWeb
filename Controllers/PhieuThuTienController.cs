@@ -69,12 +69,22 @@ namespace BookManagementWeb.Controllers
                                                             .Select(x => x.SoTienNo).FirstOrDefault();
 
             var tongGiaTriHoaDonTempData = TempData["TongGiaTriHoaDon"]?.ToString();
-            decimal tongGiaTriHoaDon = string.IsNullOrEmpty(tongGiaTriHoaDonTempData) ? 0 : decimal.Parse(tongGiaTriHoaDonTempData);
+            /*            decimal tongGiaTriHoaDon = string.IsNullOrEmpty(tongGiaTriHoaDonTempData) ? 0 : decimal.Parse(tongGiaTriHoaDonTempData);
+            */
+            decimal tongGiaTriHoaDon = 0;
             
+
             var khachHang = _context.KHACHHANG.Where(x => x.MaKhachHang == hoaDon.MaKhachHang).FirstOrDefault();
 
             phieuThuTien.SoTienKhachNo = soTienKhachNo;
             phieuThuTien.MaHoaDon = hoaDon.MaHoaDon;
+
+            List<CTHoaDon> ctHoaDonList = new List<CTHoaDon>();
+            ctHoaDonList = _context.CTHOADONBANSACH.Where(x => x.MaHoaDon == hoaDon.MaHoaDon).ToList();
+            foreach(var i in ctHoaDonList)
+            {
+                tongGiaTriHoaDon += (i.DonGiaBan * i.SoLuongBan);
+            }
 
 
             decimal soTienNoMoi = phieuThuTien.TongSoTienThu - (phieuThuTien.SoTienKhachNo + tongGiaTriHoaDon);
